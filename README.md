@@ -7,7 +7,7 @@ Ultra-luxurious, high-converting digital agency website engineered for **Framewo
 ## 🚀 Key Highlights & Features
 
 - **Live Client Showcase Integration:**
-  - ✂️ **LUMÉA Studio (Salon & Spa)**: [https://saloon-demo-three.vercel.app/](https://saloon-demo-three.vercel.app/)
+  - ✂️ **LUMÉA Studio (Salon & Spa)**: [https://lumea-studio-orpin.vercel.app/](https://lumea-studio-orpin.vercel.app/)
   - 🩺 **SmileCare Dental**: [https://simlecare-com.vercel.app/](https://simlecare-com.vercel.app/)
   - 🏋️‍♂️ **Isotropy Fitness**: [https://isotropy-nine.vercel.app/](https://isotropy-nine.vercel.app/)
   - 🎸 **MelodyMart Music Store (E-Commerce)**: [https://melodymart-com.vercel.app/](https://melodymart-com.vercel.app/)
