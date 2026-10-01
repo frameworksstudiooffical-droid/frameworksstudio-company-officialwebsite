@@ -10,7 +10,7 @@ Ultra-luxurious, high-converting digital agency website engineered for **Framewo
   - ✂️ **LUMÉA Studio (Salon & Spa)**: [https://saloon-demo-three.vercel.app/](https://saloon-demo-three.vercel.app/)
   - 🩺 **SmileCare Dental**: [https://simlecare-com.vercel.app/](https://simlecare-com.vercel.app/)
   - 🏋️‍♂️ **Isotropy Fitness**: [https://isotropy-nine.vercel.app/](https://isotropy-nine.vercel.app/)
-  - 🎸 **MelodyMart Music Store (E-Commerce)**: [https://frameworksstudio-company-musicshopb.vercel.app/](https://frameworksstudio-company-musicshopb.vercel.app/)
+  - 🎸 **MelodyMart Music Store (E-Commerce)**: [https://melodymart-com.vercel.app/](https://melodymart-com.vercel.app/)
   - *Interactive In-App Modal*: Allows visitors to preview client sites inside live responsive viewports (Desktop 100%, Tablet 768px, Mobile 375px) without leaving your agency website!
 
 - **Transparent 3-Tier Pricing Architecture:**
