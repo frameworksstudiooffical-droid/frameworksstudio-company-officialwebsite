@@ -15,7 +15,7 @@ Ultra-luxurious, high-converting digital agency website engineered for **Framewo
 
 - **Transparent 3-Tier Pricing Architecture:**
   - **Basics**: **₹19,999** (was <del>₹29,999</del> — *Save ₹10,000*)
-  - **Standard (⭐ Most Popular)**: **₹39,999** (was <del>₹44,999</del> — *Save ₹5,000*)
+  - **Standard (Most Popular)**: **₹39,999** (was <del>₹44,999</del> — *Save ₹5,000*)
   - **Premium**: **₹69,999** (was <del>₹94,999</del> — *Save ₹25,000*)
   - Interactive "Select Plan" buttons auto-scroll to the contact form and automatically choose that plan with a visual glow effect.
 
