@@ -199,10 +199,11 @@ function initPortfolioModal() {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const url = btn.getAttribute('data-preview-url');
+      const displayUrl = btn.getAttribute('data-display-url') || url;
       const title = btn.getAttribute('data-preview-title') || 'Live Client Demo';
 
       modalTitle.textContent = title;
-      modalUrl.textContent = url;
+      modalUrl.textContent = displayUrl;
       modalExternalBtn.href = url;
       modalFrame.src = url;
 

@@ -7,10 +7,10 @@ Ultra-luxurious, high-converting digital agency website engineered for **Framewo
 ## 🚀 Key Highlights & Features
 
 - **Live Client Showcase Integration:**
-  - ✂️ **LUMÉA Studio (Salon & Spa)**: [https://lumea-studio-orpin.vercel.app/](https://lumea-studio-orpin.vercel.app/)
-  - 🩺 **SmileCare Dental**: [https://simlecare-com.vercel.app/](https://simlecare-com.vercel.app/)
-  - 🏋️‍♂️ **Isotropy Fitness**: [https://isotropy-nine.vercel.app/](https://isotropy-nine.vercel.app/)
-  - 🎸 **MelodyMart Music Store (E-Commerce)**: [https://melodymart-com.vercel.app/](https://melodymart-com.vercel.app/)
+  - ✂️ **LUMÉA Studio (Salon & Spa)**: `www.lumeastudio.in` — [Live Demo](https://lumea-studio-orpin.vercel.app/)
+  - 🩺 **SmileCare Dental Clinic**: `www.smilecaredental.com` — [Live Demo](https://simlecare-com.vercel.app/)
+  - 🏋️‍♂️ **Isotropy Fitness**: `www.isotropyfitness.com` — [Live Demo](https://isotropy-nine.vercel.app/)
+  - 🎸 **MelodyMart Music Store (E-Commerce)**: `www.melodymart.in` — [Live Demo](https://melodymart-com.vercel.app/)
   - *Interactive In-App Modal*: Allows visitors to preview client sites inside live responsive viewports (Desktop 100%, Tablet 768px, Mobile 375px) without leaving your agency website!
 
 - **Transparent 3-Tier Pricing Architecture:**
