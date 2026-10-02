@@ -35,3 +35,8 @@ desktop.ini
 *.bak
 *.log
 
+# Local Version Backups (preserved locally, excluded from public deployments)
+*.old.*
+*.old-backup.*
+
+

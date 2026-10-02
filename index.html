@@ -1,1123 +1,715 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark overflow-x-hidden">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Frameworks Studio — Bespoke Web Development & High-Performance Digital Agency</title>
-  <meta name="description" content="Frameworks Studio crafts high-converting, luxury web platforms and web applications with 48 - 72 hours rapid delivery. Explore our live client demos and transparent pricing plans.">
-  
-  <!-- Immediate Theme Initializer (Prevents FOUC) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Frameworks Studio — Websites, Branding & Digital Engineering</title>
+  <meta name="description" content="Frameworks Studio makes bespoke websites, brand identities, and e-commerce platforms with rapid 48–72h turnaround for businesses that want to look as good online as they do in real life." />
+  <meta name="theme-color" content="#f1eee8" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Frameworks Studio" />
+  <meta property="og:description" content="Websites, branding & digital engineering." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Frameworks Studio" />
+
+  <!-- Clean Editorial Favicon (F Mark in Red Box) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23d71943'/%3E%3Cpath d='M18 16h28v7H26v7h16v7H26v11h-8V16z' fill='%23fff'/%3E%3C/svg%3E" />
+
+  <!-- High-Craft Typography (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Environment Config & Cloudflare Turnstile CAPTCHA API -->
   <script>
-    (function() {
-      const savedTheme = localStorage.getItem('frameworks_theme');
-      if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
+    window.turnstileToken = "";
+    window.onTurnstileSuccess = function(token) {
+      window.turnstileToken = token;
+      var notice = document.getElementById('formNotice');
+      if (notice && notice.textContent.includes('CAPTCHA')) {
+        notice.classList.add('hidden');
       }
-    })();
+    };
+    window.onTurnstileExpired = function() { window.turnstileToken = ""; };
+    window.onTurnstileError = function() { window.turnstileToken = ""; };
   </script>
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/logo.png">
-
-  <!-- Load Environment Configuration & Cloudflare Turnstile Security API -->
   <script src="js/env.js"></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-  <!-- Tailwind CSS CDN with dark mode class strategy -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              dark: '#06080F',
-              slate: '#0D111D',
-              card: 'rgba(16, 22, 38, 0.7)',
-              indigo: '#6366F1',
-              violet: '#8B5CF6',
-              cyan: '#06B6D4',
-              emerald: '#10B981'
-            }
-          },
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            heading: ['Outfit', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- Custom CSS -->
+  <!-- Agency Swiss Editorial Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-[#06080F] text-slate-800 dark:text-slate-100 antialiased selection:bg-indigo-600/30 selection:text-indigo-600 dark:selection:text-white relative transition-colors duration-300 overflow-x-hidden w-full max-w-full">
 
-  <!-- Background Ambient Lights & Grid (Safely contained to eliminate mobile horizontal scroll) -->
-  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0 w-full max-w-full">
-    <div class="absolute inset-0 bg-grid-pattern"></div>
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
-    <div class="ambient-glow-3"></div>
+<body class="is-loading">
+
+  <!-- PAGE LOADER SCREEN -->
+  <div id="pageLoader" aria-label="Loading Frameworks Studio">
+    <div class="loader-inner">
+      <div class="loader-top">
+        <div class="loader-logo">
+          <img src="assets/logo-icon.png" alt="Frameworks Studio Logo" class="logo-img" style="height: 26px; width: auto;" />
+          FRAMEWORKS STUDIO.
+        </div>
+        <span class="mono">Frameworks Studio / 2026</span>
+      </div>
+
+      <div class="loader-center">
+        <div class="loader-percent" id="loaderPercent">0%</div>
+        <div class="loader-bar" aria-hidden="true"><span id="loaderBar"></span></div>
+        <div class="loader-status mono" id="loaderStatus">Preparing digital experience</div>
+      </div>
+
+      <div class="loader-bottom">
+        <span class="mono">Coimbatore, India / Worldwide</span>
+        <span class="mono">Please wait / Loading</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Top Sticky Navigation (Header Number Removed as requested) -->
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-nav border-b border-slate-200 dark:border-white/5" id="mainNav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <a href="#hero" class="flex items-center gap-2.5 sm:gap-3 group">
-        <div class="w-9 h-9 sm:w-12 sm:h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-slate-200 dark:border-white/10 group-hover:scale-105 group-hover:shadow-indigo-500/30 transition-all overflow-hidden flex-shrink-0">
-          <img src="assets/logo.png" alt="Frameworks Studio Logo" class="w-full h-full object-contain">
-        </div>
-        <div class="flex flex-col">
-          <span class="text-lg sm:text-xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-1">
-            Frameworks<span class="text-indigo-600 dark:text-indigo-400">Studio</span>
-          </span>
-          <span class="text-[9px] sm:text-[10px] tracking-widest uppercase text-slate-500 dark:text-slate-400 font-semibold">Web Engineering</span>
-        </div>
+  <!-- NAVIGATION -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="logo" href="#top" aria-label="Frameworks Studio home">
+        <img src="assets/logo-icon.png" alt="Frameworks Studio Logo" class="logo-img" />
+        FRAMEWORKS STUDIO.
       </a>
 
-      <!-- Desktop Nav Links -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
-        <a href="#demos" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Client Demos</a>
-        <a href="#capabilities" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Capabilities</a>
-        <a href="#process" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Process</a>
-        <a href="#pricing" class="hover:text-indigo-600 dark:hover:text-white transition-colors">Pricing</a>
-        <a href="#faq" class="hover:text-indigo-600 dark:hover:text-white transition-colors">FAQ</a>
-      </nav>
-
-      <!-- Desktop Right CTAs & Theme Switcher (Clean, no raw phone number) -->
-      <div class="hidden md:flex items-center gap-3">
-        <!-- Theme Switcher Button -->
-        <button data-theme-toggle class="p-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-200 hover:border-indigo-500 dark:hover:border-indigo-400 hover:text-indigo-600 transition-all shadow-sm flex items-center justify-center" aria-label="Toggle Dark / Light Theme" title="Toggle Dark / Light Mode">
-          <i data-lucide="sun" class="theme-icon-sun w-4 h-4 text-amber-500 hidden"></i>
-          <i data-lucide="moon" class="theme-icon-moon w-4 h-4 text-indigo-600"></i>
-        </button>
-
-        <!-- Start Project CTA -->
-        <a href="#contact" class="btn-primary text-xs font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2">
-          <span>Start Project</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#about">Studio</a>
+        <a href="#pricing">Starting points</a>
+        <a class="nav-project" href="#contact">Start a project ↗</a>
       </div>
 
-      <!-- Mobile Actions (Theme + Menu) -->
-      <div class="flex items-center gap-2 md:hidden">
-        <button data-theme-toggle class="p-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300" aria-label="Toggle Theme">
-          <i data-lucide="sun" class="theme-icon-sun w-4.5 h-4.5 text-amber-500 hidden"></i>
-          <i data-lucide="moon" class="theme-icon-moon w-4.5 h-4.5 text-indigo-600"></i>
-        </button>
-        <button id="mobileMenuBtn" class="p-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:outline-none" aria-label="Toggle Navigation">
-          <i data-lucide="menu" id="mobileMenuIcon" class="w-5 h-5"></i>
-        </button>
-      </div>
+      <button class="menu" id="menuButton" aria-label="Open menu">☰</button>
     </div>
+  </nav>
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobileMenu" class="hidden md:hidden glass-nav border-t border-slate-200 dark:border-white/10 px-5 py-5 space-y-2 shadow-2xl">
-      <a href="#demos" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold text-sm transition-colors">
-        <span>Client Demos</span>
-        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
-      </a>
-      <a href="#capabilities" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold text-sm transition-colors">
-        <span>Capabilities</span>
-        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
-      </a>
-      <a href="#process" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold text-sm transition-colors">
-        <span>Process</span>
-        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
-      </a>
-      <a href="#pricing" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold text-sm transition-colors">
-        <span>Pricing Plans</span>
-        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
-      </a>
-      <a href="#faq" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 font-semibold text-sm transition-colors">
-        <span>FAQ</span>
-        <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
-      </a>
-      
-      <!-- Mobile Theme Toggle Option -->
-      <div class="pt-3 border-t border-slate-200 dark:border-white/10 flex flex-col gap-2.5">
-        <button data-theme-toggle class="flex items-center justify-between w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-100 dark:bg-white/5 text-slate-800 dark:text-slate-200 font-semibold text-xs">
-          <span class="flex items-center gap-2">
-            <i data-lucide="palette" class="w-4 h-4 text-indigo-500"></i>
-            <span class="theme-text-label">Toggle Dark / Light Theme</span>
-          </span>
-          <span class="flex items-center gap-1.5">
-            <i data-lucide="sun" class="theme-icon-sun w-4 h-4 text-amber-500 hidden"></i>
-            <i data-lucide="moon" class="theme-icon-moon w-4 h-4 text-indigo-600"></i>
-          </span>
-        </button>
+  <!-- MOBILE DROPDOWN MENU -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#about">Studio</a>
+    <a href="#pricing">Starting points</a>
+    <a href="#contact">Start a project ↗</a>
+  </div>
 
-        <a href="https://wa.me/916383976149" target="_blank" class="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-semibold text-sm">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          <span>Connect on WhatsApp</span>
-        </a>
-        <a href="#contact" class="btn-primary flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm shadow-lg shadow-indigo-600/30">
-          <span>Request Quote</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
-      </div>
-    </div>
-  </header>
+  <main id="top">
 
-  <main class="relative z-10 pt-16 sm:pt-20 overflow-x-hidden w-full max-w-full">
-
-    <!-- 1. Hero Section -->
-    <section id="hero" class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-12 sm:pt-8 sm:pb-20 text-center flex flex-col items-center overflow-hidden">
-      
-      <!-- Top Pill Badge with Lightning Velocity -->
-      <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 backdrop-blur-md mb-5 sm:mb-6 group hover:border-indigo-500/60 transition-all text-center">
-        <span class="pulse-lightning text-amber-400 text-xs sm:text-sm flex-shrink-0">⚡</span>
-        <span class="text-[11px] sm:text-xs font-semibold tracking-wide text-indigo-700 dark:text-indigo-300 uppercase">Ultra-Fast 48 — 72 Hrs Delivery • Accepting Projects</span>
-      </div>
-
-      <!-- Main Heading -->
-      <h1 class="text-3xl sm:text-5xl lg:text-7xl font-heading font-extrabold tracking-tight text-slate-900 dark:text-white max-w-5xl leading-[1.15]">
-        We Engineer <span class="text-gradient-primary">High-Converting</span> Websites That Elevate Modern Brands.
-      </h1>
-
-      <!-- Subtitle -->
-      <p class="mt-4 sm:mt-5 text-sm sm:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed px-1 sm:px-0">
-        Frameworks Studio builds bespoke, lightning-fast digital experiences. Clean code architecture, conversion-focused design, and sub-second load times engineered to scale your business.
-      </p>
-
-      <!-- Action Buttons -->
-      <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full sm:w-auto">
-        <a href="#demos" class="btn-primary w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center gap-2.5">
-          <span>Explore Live Client Demos</span>
-          <i data-lucide="sparkles" class="w-4 h-4"></i>
-        </a>
-        <a href="#pricing" class="btn-secondary w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-semibold text-sm sm:text-base flex items-center justify-center gap-2">
-          <span>View Transparent Pricing</span>
-          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
-        </a>
-      </div>
-
-      <!-- Verified Metric Badges with 48 - 72 Hrs Delivery & Interactive Spotlight FX -->
-      <div class="mt-8 sm:mt-12 w-full grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl">
-        
-        <!-- Metric 1: Core Web Vitals -->
-        <div class="glass-panel spotlight-card p-3.5 sm:p-5 rounded-xl sm:rounded-2xl text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-slate-900 dark:text-white">99+</div>
-          <div class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Core Web Vitals Score</div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-meta reveal">
+          <span class="mono left">Frameworks Studio / 2026</span>
+          <span class="mono right">Coimbatore, India / Worldwide</span>
         </div>
 
-        <!-- Metric 2: 48 - 72 Hrs Rapid Delivery Guarantee with Shimmer & Lightning FX -->
-        <div class="glass-panel spotlight-card rapid-delivery-badge p-3.5 sm:p-5 rounded-xl sm:rounded-2xl text-center cursor-default">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1 sm:gap-1.5">
-            <span class="pulse-lightning">⚡</span>
-            <span>48 - 72 Hrs</span>
-          </div>
-          <div class="text-[11px] sm:text-xs text-indigo-700 dark:text-indigo-300 mt-1 font-bold tracking-tight">Rapid Delivery Sprint</div>
+        <h1 class="hero-title reveal">
+          We make
+          <span class="red">websites.</span>
+          <br>
+          <span class="indent">Good</span>
+          <span class="serif"> ones.</span>
+        </h1>
+
+        <div class="hero-bottom">
+          <p class="hero-statement reveal">
+            Websites, branding and digital engineering for businesses
+            that want to <strong>look as good online as they do in real life.</strong>
+          </p>
+
+          <p class="hero-note reveal">
+            Small team. Direct communication. Rapid 48–72h turnaround.
+            Clean code. No giant-agency theatre.
+          </p>
         </div>
 
-        <!-- Metric 3: Custom Responsive Code -->
-        <div class="glass-panel spotlight-card p-3.5 sm:p-5 rounded-xl sm:rounded-2xl text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-emerald-600 dark:text-emerald-400">100%</div>
-          <div class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Custom Responsive Code</div>
-        </div>
-
-        <!-- Metric 4: Client Rating -->
-        <div class="glass-panel spotlight-card p-3.5 sm:p-5 rounded-xl sm:rounded-2xl text-center">
-          <div class="text-xl sm:text-2xl lg:text-3xl font-heading font-extrabold text-slate-900 dark:text-white">4.9 / 5.0</div>
-          <div class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Client Rating & Trust</div>
+        <div class="scroll-mark reveal">
+          <span class="scroll-line"></span>
+          <span class="mono">Scroll to see what we make</span>
         </div>
       </div>
     </section>
 
-    <!-- 2. Featured Portfolio Showcase Section -->
-    <section id="demos" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-5 sm:gap-6">
+    <!-- RUNNING TICKER STRIP -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-item">Websites <b>×</b> Branding <b>×</b> Digital Engineering <b>×</b> E-Commerce <b>×</b> Rapid 48–72h Delivery <b>×</b></div>
+        <div class="ticker-item">Websites <b>×</b> Branding <b>×</b> Digital Engineering <b>×</b> E-Commerce <b>×</b> Rapid 48–72h Delivery <b>×</b></div>
+      </div>
+    </div>
+
+    <!-- 01 / SELECTED WORK -->
+    <section class="work" id="work">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="mono reveal">01 / Selected work</div>
+          <div class="reveal">
+            <h2 class="section-title">Things<br>we have<br>built.</h2>
+            <p class="section-intro">
+              Four live client deployments built to show the kind of
+              aesthetic craft, rapid engineering, and commercial impact Frameworks Studio brings to every engagement.
+            </p>
+          </div>
+        </div>
+
+        <div class="work-grid">
+
+          <!-- Project 01: LUMÉA Studio -->
+          <article class="work-item reveal">
+            <span class="project-index">01</span>
+            <div class="project-visual visual-lumea" data-preview-url="https://lumea-studio-orpin.vercel.app/" data-display-url="https://www.lumeastudio.in" data-preview-title="LUMÉA Studio — Live Client Demo">
+              <span class="visual-badge"><span></span> Live Site</span>
+            </div>
+            <div class="project-caption">
+              <div class="project-name">LUMÉA Studio</div>
+              <div class="project-type">Salon & Spa / E-Booking</div>
+            </div>
+            <div class="project-metrics">
+              <span class="metric-chip positive">↗ +184% Online Bookings</span>
+              <span class="metric-chip">0.8s Mobile Load</span>
+              <span class="metric-chip">Custom Booking Engine</span>
+            </div>
+            <div class="project-actions">
+              <button class="btn-preview" data-preview-url="https://lumea-studio-orpin.vercel.app/" data-display-url="https://www.lumeastudio.in" data-preview-title="LUMÉA Studio — Live Client Demo">
+                Live Interactive Preview ↗
+              </button>
+              <a class="link-site" href="https://lumea-studio-orpin.vercel.app/" target="_blank" rel="noopener noreferrer">
+                www.lumeastudio.in ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 02: SmileCare Dental -->
+          <article class="work-item reveal">
+            <span class="project-index">02</span>
+            <div class="project-visual visual-dental" data-preview-url="https://simlecare-com.vercel.app/" data-display-url="https://www.smilecaredental.com" data-preview-title="SmileCare Dental — Live Client Demo">
+              <span class="visual-badge"><span></span> Live Site</span>
+            </div>
+            <div class="project-caption">
+              <div class="project-name">SmileCare Dental</div>
+              <div class="project-type">Healthcare / Patient Portal</div>
+            </div>
+            <div class="project-metrics">
+              <span class="metric-chip positive">↗ +240% Patient Bookings</span>
+              <span class="metric-chip">HIPAA Security Ready</span>
+              <span class="metric-chip">Local Search #1</span>
+            </div>
+            <div class="project-actions">
+              <button class="btn-preview" data-preview-url="https://simlecare-com.vercel.app/" data-display-url="https://www.smilecaredental.com" data-preview-title="SmileCare Dental — Live Client Demo">
+                Live Interactive Preview ↗
+              </button>
+              <a class="link-site" href="https://simlecare-com.vercel.app/" target="_blank" rel="noopener noreferrer">
+                www.smilecaredental.com ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 03: Isotropy Fitness -->
+          <article class="work-item reveal">
+            <span class="project-index">03</span>
+            <div class="project-visual visual-fitness" data-preview-url="https://isotropy-nine.vercel.app/" data-display-url="https://www.isotropyfitness.com" data-preview-title="Isotropy Fitness — Live Client Demo">
+              <span class="visual-badge"><span></span> Live SPA</span>
+            </div>
+            <div class="project-caption">
+              <div class="project-name">Isotropy Fitness</div>
+              <div class="project-type">Gym & Athlete / React SPA</div>
+            </div>
+            <div class="project-metrics">
+              <span class="metric-chip positive">↗ 3.2× Member Signups</span>
+              <span class="metric-chip">React SPA 60 FPS</span>
+              <span class="metric-chip">Zero Friction Funnel</span>
+            </div>
+            <div class="project-actions">
+              <button class="btn-preview" data-preview-url="https://isotropy-nine.vercel.app/" data-display-url="https://www.isotropyfitness.com" data-preview-title="Isotropy Fitness — Live Client Demo">
+                Live Interactive Preview ↗
+              </button>
+              <a class="link-site" href="https://isotropy-nine.vercel.app/" target="_blank" rel="noopener noreferrer">
+                www.isotropyfitness.com ↗
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 04: MelodyMart Music -->
+          <article class="work-item reveal">
+            <span class="project-index">04</span>
+            <div class="project-visual visual-music" data-preview-url="https://melodymart-com.vercel.app/" data-display-url="https://www.melodymart.in" data-preview-title="MelodyMart Music — Live Client Demo">
+              <span class="visual-badge"><span></span> Live Site</span>
+            </div>
+            <div class="project-caption">
+              <div class="project-name">MelodyMart Music Store</div>
+              <div class="project-type">E-Commerce / Audio Gear</div>
+            </div>
+            <div class="project-metrics">
+              <span class="metric-chip positive">↗ +165% Conversions</span>
+              <span class="metric-chip">₹12.4L GMV Processed</span>
+              <span class="metric-chip">Instant Search</span>
+            </div>
+            <div class="project-actions">
+              <button class="btn-preview" data-preview-url="https://melodymart-com.vercel.app/" data-display-url="https://www.melodymart.in" data-preview-title="MelodyMart Music — Live Client Demo">
+                Live Interactive Preview ↗
+              </button>
+              <a class="link-site" href="https://melodymart-com.vercel.app/" target="_blank" rel="noopener noreferrer">
+                www.melodymart.in ↗
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <p class="work-note reveal">
+          Every project featured above is live, functional, and running on edge infrastructure. Click "Live Interactive Preview" on any card to test the responsive mobile, tablet, and desktop views directly without leaving this page.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 / THE STUDIO -->
+    <section class="statement" id="about-studio">
+      <div class="wrap">
+        <div class="statement-inner">
+          <div class="mono reveal">02 / The studio</div>
+
           <div>
-            <div class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-2">Live Production Showcases</div>
-            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
-              Crafted With Precision.
+            <p class="statement-copy reveal">
+              We don't think every business needs a
+              <em>huge agency.</em>
+              Sometimes you just need people who understand the brief,
+              care about the details and actually make the thing.
+            </p>
+
+            <p class="statement-foot reveal">
+              Frameworks Studio is a high-velocity web engineering team operating out of Coimbatore, India and partnering with businesses worldwide. We architect bespoke digital products, brand identities, and conversion platforms with rapid 48–72h sprint turnarounds. No generic templates, no junior-account bureaucracy — direct communication with engineers who build your project.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 / WHAT WE DO -->
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="mono reveal">03 / What we do</div>
+          <div class="reveal">
+            <h2 class="section-title">Not just<br>pretty pixels.</h2>
+            <p class="section-intro">
+              Design is only useful when it helps the business. Every
+              service starts with what needs to happen commercially, not just what looks cool on Behance.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-list">
+
+          <article class="service-row reveal" data-service="Websites">
+            <div class="service-num">01</div>
+            <div class="service-name">Bespoke Websites</div>
+            <div class="service-desc">Custom-coded Next.js, React, and HTML5 platforms that make your business look authoritative, communicate with clarity, and convert visitors into paying clients.</div>
+            <div class="service-arrow">↗</div>
+          </article>
+
+          <article class="service-row reveal" data-service="Brand Identity">
+            <div class="service-num">02</div>
+            <div class="service-name">Brand Identity</div>
+            <div class="service-desc">Distinctive logos, typography systems, color chemistry, and visual direction that give your company something unmistakable and memorable to own.</div>
+            <div class="service-arrow">↗</div>
+          </article>
+
+          <article class="service-row reveal" data-service="Digital Design">
+            <div class="service-num">03</div>
+            <div class="service-name">Digital Design & UI</div>
+            <div class="service-desc">High-converting landing pages, interactive product prototypes, campaigns, and digital assets designed with obsessively tight typography.</div>
+            <div class="service-arrow">↗</div>
+          </article>
+
+          <article class="service-row reveal" data-service="E-commerce">
+            <div class="service-num">04</div>
+            <div class="service-name">E-Commerce Platforms</div>
+            <div class="service-desc">Modern online stores engineered around fast product discovery, slide-out carts, and frictionless checkout that minimizes cart abandonment.</div>
+            <div class="service-arrow">↗</div>
+          </article>
+
+          <article class="service-row reveal" data-service="SEO & Growth">
+            <div class="service-num">05</div>
+            <div class="service-name">Speed & SEO Growth</div>
+            <div class="service-desc">Sub-second Core Web Vitals load times and technical search architecture that ensure your business ranks prominently and never loses traffic to lag.</div>
+            <div class="service-arrow">↗</div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 / HOW WE WORK -->
+    <section class="about" id="about">
+      <div class="wrap">
+        <div class="about-grid">
+          <div class="mono reveal">04 / How we work</div>
+
+          <div>
+            <h2 class="about-big reveal">
+              Small team.
+              <span class="serif">Big attention.</span>
             </h2>
-            <p class="mt-2 sm:mt-3 text-slate-600 dark:text-slate-400 max-w-xl text-sm sm:text-base">
-              Interact directly with live client platforms engineered by Frameworks Studio. Test responsiveness, performance, and UI execution in real-time.
-            </p>
-          </div>
 
-          <!-- Category Filters (Mobile horizontal scroll chip bar, wrapped on desktop) -->
-          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 w-full max-w-full sm:flex-wrap">
-            <button data-filter="all" class="whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white border border-indigo-500 transition-all flex-shrink-0">All Projects</button>
-            <button data-filter="salon" class="whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-white/10 hover:text-indigo-600 dark:hover:text-white transition-all flex-shrink-0">Salon & Luxury Spa</button>
-            <button data-filter="healthcare" class="whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-white/10 hover:text-indigo-600 dark:hover:text-white transition-all flex-shrink-0">Healthcare</button>
-            <button data-filter="fitness" class="whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-white/10 hover:text-indigo-600 dark:hover:text-white transition-all flex-shrink-0">Fitness & Gym</button>
-            <button data-filter="ecommerce" class="whitespace-nowrap px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-400 border border-slate-300 dark:border-white/10 hover:text-indigo-600 dark:hover:text-white transition-all flex-shrink-0">E-Commerce</button>
-          </div>
-        </div>
-
-        <!-- Portfolio Cards Grid with Spotlight FX -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="portfolioGrid">
-
-          <!-- 1. LUMÉA Studio (Salon & Spa) -->
-          <div data-category="salon" class="glass-panel spotlight-card rounded-2xl overflow-hidden flex flex-col group">
-            <!-- Simulated Browser Bar -->
-            <div class="browser-chrome justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="browser-dot bg-rose-500/80"></span>
-                <span class="browser-dot bg-amber-500/80"></span>
-                <span class="browser-dot bg-emerald-500/80"></span>
-              </div>
-              <div class="browser-url-pill truncate">
-                <i data-lucide="lock" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-                <span class="truncate">www.lumeastudio.in</span>
-              </div>
-              <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-bold">LIVE</span>
-            </div>
-
-            <!-- Preview Card Visual Banner -->
-            <div class="relative bg-gradient-to-br from-rose-950/70 via-stone-900/80 to-slate-900/90 p-8 min-h-[220px] flex flex-col justify-end border-b border-slate-200 dark:border-white/5 overflow-hidden">
-              <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" style="background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1000&q=80');"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-              
-              <div class="relative z-10">
-                <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 mb-2">Luxury Salon & Spa</span>
-                <h3 class="text-2xl font-heading font-bold text-white">LUMÉA Studio</h3>
-                <p class="text-sm text-slate-200 mt-1 line-clamp-2">High-end beauty sanctuary featuring instant appointment booking, interactive service pricing, and luxury aesthetic styling.</p>
-              </div>
-            </div>
-
-            <!-- Card Body & Action Buttons -->
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-5 bg-white/50 dark:bg-[#0D111D]/80">
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Appointment Booking</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Luxury Aesthetics</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Interactive Menu</span>
-              </div>
-
-              <div class="flex items-center gap-3 pt-2">
-                <button data-preview-url="https://lumea-studio-orpin.vercel.app/" data-display-url="https://www.lumeastudio.in" data-preview-title="LUMÉA Studio — Live Preview" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2">
-                  <i data-lucide="eye" class="w-4 h-4"></i>
-                  <span>Live Interactive Preview</span>
-                </button>
-                <a href="https://lumea-studio-orpin.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5" title="Open in New Tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                  <span class="hidden sm:inline">Visit Site</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2. SmileCare Dental -->
-          <div data-category="healthcare" class="glass-panel spotlight-card rounded-2xl overflow-hidden flex flex-col group">
-            <!-- Simulated Browser Bar -->
-            <div class="browser-chrome justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="browser-dot bg-rose-500/80"></span>
-                <span class="browser-dot bg-amber-500/80"></span>
-                <span class="browser-dot bg-emerald-500/80"></span>
-              </div>
-              <div class="browser-url-pill truncate">
-                <i data-lucide="lock" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-                <span class="truncate">www.smilecaredental.com</span>
-              </div>
-              <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-bold">LIVE</span>
-            </div>
-
-            <!-- Preview Card Visual Banner -->
-            <div class="relative bg-gradient-to-br from-teal-950/60 to-slate-900/90 p-8 min-h-[220px] flex flex-col justify-end border-b border-slate-200 dark:border-white/5 overflow-hidden">
-              <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" style="background-image: url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1000&q=80');"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-
-              <div class="relative z-10">
-                <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-2">Healthcare & Clinic</span>
-                <h3 class="text-2xl font-heading font-bold text-white">SmileCare Dental Clinic</h3>
-                <p class="text-sm text-slate-200 mt-1 line-clamp-2">Patient-first clinical platform featuring appointment scheduling, doctor credentials, and pricing transparency.</p>
-              </div>
-            </div>
-
-            <!-- Card Body & Action Buttons -->
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-5 bg-white/50 dark:bg-[#0D111D]/80">
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Appointment Booking</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Clinical Trust</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Mobile Optimized</span>
-              </div>
-
-              <div class="flex items-center gap-3 pt-2">
-                <button data-preview-url="https://simlecare-com.vercel.app/" data-display-url="https://www.smilecaredental.com" data-preview-title="SmileCare Dental — Live Preview" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2">
-                  <i data-lucide="eye" class="w-4 h-4"></i>
-                  <span>Live Interactive Preview</span>
-                </button>
-                <a href="https://simlecare-com.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5" title="Open in New Tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                  <span class="hidden sm:inline">Visit Site</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 3. Isotropy Gym & Fitness -->
-          <div data-category="fitness" class="glass-panel spotlight-card rounded-2xl overflow-hidden flex flex-col group">
-            <!-- Simulated Browser Bar -->
-            <div class="browser-chrome justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="browser-dot bg-rose-500/80"></span>
-                <span class="browser-dot bg-amber-500/80"></span>
-                <span class="browser-dot bg-emerald-500/80"></span>
-              </div>
-              <div class="browser-url-pill truncate">
-                <i data-lucide="lock" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-                <span class="truncate">www.isotropyfitness.com</span>
-              </div>
-              <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-bold">LIVE SPA</span>
-            </div>
-
-            <!-- Preview Card Visual Banner -->
-            <div class="relative bg-gradient-to-br from-purple-950/60 to-slate-900/90 p-8 min-h-[220px] flex flex-col justify-end border-b border-slate-200 dark:border-white/5 overflow-hidden">
-              <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=80');"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-
-              <div class="relative z-10">
-                <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-violet-500/20 text-violet-300 border border-violet-500/30 mb-2">Sports & Fitness</span>
-                <h3 class="text-2xl font-heading font-bold text-white">Isotropy Fitness</h3>
-                <p class="text-sm text-slate-200 mt-1 line-clamp-2">High-octane React Single Page App built for gyms and athlete training studios with membership tiers.</p>
-              </div>
-            </div>
-
-            <!-- Card Body & Action Buttons -->
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-5 bg-white/50 dark:bg-[#0D111D]/80">
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">React.js & Vite</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Dynamic Dark UI</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Membership Plans</span>
-              </div>
-
-              <div class="flex items-center gap-3 pt-2">
-                <button data-preview-url="https://isotropy-nine.vercel.app/" data-display-url="https://www.isotropyfitness.com" data-preview-title="Isotropy Gym — Live Preview" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2">
-                  <i data-lucide="eye" class="w-4 h-4"></i>
-                  <span>Live Interactive Preview</span>
-                </button>
-                <a href="https://isotropy-nine.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5" title="Open in New Tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                  <span class="hidden sm:inline">Visit Site</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4. MelodyMart Music Store (E-Commerce) -->
-          <div data-category="ecommerce" class="glass-panel spotlight-card rounded-2xl overflow-hidden flex flex-col group">
-            <!-- Simulated Browser Bar -->
-            <div class="browser-chrome justify-between">
-              <div class="flex items-center gap-1.5">
-                <span class="browser-dot bg-rose-500/80"></span>
-                <span class="browser-dot bg-amber-500/80"></span>
-                <span class="browser-dot bg-emerald-500/80"></span>
-              </div>
-              <div class="browser-url-pill truncate">
-                <i data-lucide="lock" class="w-3 h-3 text-emerald-500 flex-shrink-0"></i>
-                <span class="truncate">www.melodymart.in</span>
-              </div>
-              <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono font-bold">LIVE</span>
-            </div>
-
-            <!-- Preview Card Visual Banner -->
-            <div class="relative bg-gradient-to-br from-indigo-950/70 via-purple-950/80 to-slate-900/90 p-8 min-h-[220px] flex flex-col justify-end border-b border-slate-200 dark:border-white/5 overflow-hidden">
-              <div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" style="background-image: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80');"></div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
-
-              <div class="relative z-10">
-                <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 mb-2">Modern E-Commerce & Audio</span>
-                <h3 class="text-2xl font-heading font-bold text-white">MelodyMart Music</h3>
-                <p class="text-sm text-slate-200 mt-1 line-clamp-2">High-performance digital instruments and audio equipment platform featuring dynamic shop collections, slide-out cart, and responsive checkout.</p>
-              </div>
-            </div>
-
-            <!-- Card Body & Action Buttons -->
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-5 bg-white/50 dark:bg-[#0D111D]/80">
-              <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Instrument Catalog</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Cart & Checkout</span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-mono bg-slate-200/60 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Audio Gear Store</span>
-              </div>
-
-              <div class="flex items-center gap-3 pt-2">
-                <button data-preview-url="https://melodymart-com.vercel.app/" data-display-url="https://www.melodymart.in" data-preview-title="MelodyMart Music — Live Preview" class="btn-primary flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-2">
-                  <i data-lucide="eye" class="w-4 h-4"></i>
-                  <span>Live Interactive Preview</span>
-                </button>
-                <a href="https://melodymart-com.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-secondary px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5" title="Open in New Tab">
-                  <i data-lucide="external-link" class="w-4 h-4"></i>
-                  <span class="hidden sm:inline">Visit Site</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Capabilities & Services Section -->
-    <section id="capabilities" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-          <div class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-2">Our Engineering Arsenal</div>
-          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
-            Capabilities Engineered For Growth.
-          </h2>
-          <p class="mt-3 sm:mt-4 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-            We don't assemble bloated WordPress themes. Every project is architected with modern standards to guarantee speed, safety, and conversions.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
-          
-          <div class="glass-panel spotlight-card p-6 sm:p-8 rounded-2xl flex flex-col">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-5 sm:mb-6">
-              <i data-lucide="code-2" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-lg sm:text-xl font-heading font-bold text-slate-900 dark:text-white mb-2">Bespoke Web Development</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
-              Handcrafted code designed strictly for your business objectives. Clean semantics, fluid responsiveness across all screens, and zero unnecessary scripts.
-            </p>
-            <ul class="mt-auto space-y-2 text-xs text-slate-700 dark:text-slate-300">
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Next.js, React, Tailwind CSS</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Modular, component-driven layouts</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Lifetime code ownership</li>
-            </ul>
-          </div>
-
-          <div class="glass-panel spotlight-card p-6 sm:p-8 rounded-2xl flex flex-col">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-600 dark:text-violet-400 flex items-center justify-center mb-5 sm:mb-6">
-              <i data-lucide="zap" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-lg sm:text-xl font-heading font-bold text-slate-900 dark:text-white mb-2">Performance & Core Web Vitals</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
-              Every 100ms delay drops conversion by 7%. We tune asset delivery, compress imagery with next-gen formats, and guarantee 95+ PageSpeed scores.
-            </p>
-            <ul class="mt-auto space-y-2 text-xs text-slate-700 dark:text-slate-300">
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Sub-second First Contentful Paint</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Global edge CDN deployment</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Zero layout shifts (CLS &lt; 0.05)</li>
-            </ul>
-          </div>
-
-          <div class="glass-panel spotlight-card p-6 sm:p-8 rounded-2xl flex flex-col">
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-5 sm:mb-6">
-              <i data-lucide="send" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-lg sm:text-xl font-heading font-bold text-slate-900 dark:text-white mb-2">Lead Engines & Integrations</h3>
-            <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed mb-4">
-              Turn visitors into paying clients. We build custom multi-step forms, real-time WhatsApp instant routers, and CRM / webhook connections.
-            </p>
-            <ul class="mt-auto space-y-2 text-xs text-slate-700 dark:text-slate-300">
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Instant WhatsApp & Email alerts</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Custom REST / Webhook API endpoints</li>
-              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500"></i> Meta Pixel & Google Analytics 4</li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. The 48 - 72 Hours Velocity Sprint Process -->
-    <section id="process" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative bg-slate-100/60 dark:bg-slate-950/40 overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider mb-3">
-            <span class="pulse-lightning">⚡</span>
-            <span>Ultra-Rapid Velocity Framework</span>
-          </div>
-          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
-            From Concept To Launch In 48 — 72 Hours.
-          </h2>
-          <p class="mt-3 sm:mt-4 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-            No endless meetings or month-long drag. Our battle-tested agile architecture delivers pixel-perfect, production-grade platforms in days.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-2xl relative">
-            <span class="text-4xl font-heading font-black text-indigo-500/15 dark:text-indigo-500/20 absolute top-4 right-4">01</span>
-            <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">Hours 0 — 12</div>
-            <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1.5">Discovery & Strategy</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              We audit your competitors, lock in design tokens, typography, and set up rapid conversion objectives.
-            </p>
-          </div>
-
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-2xl relative">
-            <span class="text-4xl font-heading font-black text-indigo-500/15 dark:text-indigo-500/20 absolute top-4 right-4">02</span>
-            <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">Hours 12 — 24</div>
-            <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1.5">Interactive Wireframe</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              We build responsive wireframes and layout structures. You review and sign off before code execution begins.
-            </p>
-          </div>
-
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-2xl relative">
-            <span class="text-4xl font-heading font-black text-indigo-500/15 dark:text-indigo-500/20 absolute top-4 right-4">03</span>
-            <div class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">Hours 24 — 48</div>
-            <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1.5">Engineered Build</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Full-speed production build with API endpoints, mobile responsiveness, animations, and Core Web Vitals optimization.
-            </p>
-          </div>
-
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-2xl relative">
-            <span class="text-4xl font-heading font-black text-emerald-500/15 dark:text-emerald-500/20 absolute top-4 right-4">04</span>
-            <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">Hours 48 — 72</div>
-            <h4 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1.5">QA & Global Launch</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Cloud CDN deployment, DNS routing, SSL certification, and post-launch revision warranty with zero downtime.
-            </p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. Transparent Pricing Matrix (Exact Figures with 48-72h Delivery) -->
-    <section id="pricing" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative overflow-x-clip">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
-            <i data-lucide="tag" class="w-3.5 h-3.5"></i>
-            <span>Limited-Time Special Agency Pricing</span>
-          </div>
-          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
-            Transparent Plans. No Hidden Costs.
-          </h2>
-          <p class="mt-3 sm:mt-4 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
-            Select the tier tailored to your project scale. Click any plan to jump directly to the contact form with your package pre-selected.
-          </p>
-        </div>
-
-        <!-- 3 Tier Pricing Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch pt-4 sm:pt-6">
-
-          <!-- 1. Basics Plan -->
-          <div class="glass-panel spotlight-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between relative group">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Basics Tier</span>
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-200/70 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-white/10">Save ₹10,000</span>
-              </div>
-              <h3 class="text-2xl font-heading font-bold text-slate-900 dark:text-white">Starter Presence</h3>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Ideal for solopreneurs, landing pages, and local businesses needing immediate authority.</p>
-
-              <!-- Price Box -->
-              <div class="my-6 p-4 rounded-2xl bg-slate-100/80 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 flex items-baseline gap-3">
-                <span class="text-4xl font-heading font-extrabold text-slate-900 dark:text-white">₹19,999</span>
-                <span class="text-lg line-through text-red-500/80 dark:text-red-400/80 font-medium">₹29,999</span>
-              </div>
-
-              <!-- Feature List -->
-              <ul class="space-y-3 text-xs text-slate-700 dark:text-slate-300 mb-8">
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span><strong>1 to 5 Bespoke Pages</strong> (Home, About, Services, Contact)</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>100% Mobile, Tablet & Desktop Responsive</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>Custom Lead Contact Form + Email Notification</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>Direct WhatsApp Quick-Connect Integration</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>On-Page SEO & Google Search Console Submission</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="zap" class="w-4 h-4 text-amber-500 flex-shrink-0"></i>
-                  <span><strong class="text-indigo-600 dark:text-indigo-400">48 — 72 Hours Delivery</strong> + 14 Days Support</span>
-                </li>
-              </ul>
-            </div>
-
-            <button data-select-plan="Basics" class="btn-secondary w-full py-3.5 rounded-xl font-semibold text-xs tracking-wide uppercase transition-all flex items-center justify-center gap-2">
-              <span>Select Basics Plan</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <!-- 2. Standard Plan (FEATURED / MOST POPULAR) -->
-          <div class="glass-panel pricing-featured p-6 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between relative group scale-100 lg:-translate-y-3">
-            <!-- Floating Ribbon -->
-            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg shadow-indigo-500/40 whitespace-nowrap flex items-center gap-1.5 border border-white/20">
-              <span class="text-xs">⭐</span>
-              <span>Most Popular Choice</span>
-            </div>
-
-            <div>
-              <div class="flex items-center justify-between mb-4 mt-2">
-                <span class="text-sm font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-300">Standard Tier</span>
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30">Save ₹5,000</span>
-              </div>
-              <h3 class="text-2xl font-heading font-bold text-slate-900 dark:text-white">High-Growth Business</h3>
-              <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Recommended for scaling firms, clinics, agencies, and brands demanding heavy lead generation.</p>
-
-              <!-- Price Box -->
-              <div class="my-6 p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-baseline gap-3">
-                <span class="text-4xl font-heading font-extrabold text-slate-900 dark:text-white">₹39,999</span>
-                <span class="text-lg line-through text-red-500/80 dark:text-red-400/80 font-medium">₹44,999</span>
-              </div>
-
-              <!-- Feature List -->
-              <ul class="space-y-3 text-xs text-slate-700 dark:text-slate-200 mb-8">
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span><strong>6 to 10 High-Conversion Pages</strong></span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span>Custom Tailored UI/UX & Micro-interactions</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span>Dynamic Portfolio / Service Catalogue / CMS</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span><strong>Core Web Vitals 95+ PageSpeed Optimization</strong></span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span>Custom Lead Capture Form + API / Webhook Integration</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                  <span>Google Analytics 4 & Meta Pixel Event Tracking</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="zap" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
-                  <span><strong class="text-indigo-600 dark:text-indigo-400">48 — 72 Hours Sprint Delivery</strong> + 30 Days Priority Warranty</span>
-                </li>
-              </ul>
-            </div>
-
-            <button data-select-plan="Standard" class="btn-primary w-full py-4 rounded-xl font-bold text-xs tracking-wider uppercase transition-all flex items-center justify-center gap-2 shadow-xl shadow-indigo-600/40">
-              <span>Select Standard Plan</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-          <!-- 3. Premium Plan -->
-          <div class="glass-panel spotlight-card p-6 sm:p-8 rounded-2xl sm:rounded-3xl flex flex-col justify-between relative group">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-sm font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">Premium Tier</span>
-                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-200/70 dark:bg-white/5 text-emerald-600 dark:text-emerald-300 border border-emerald-500/20">Save ₹25,000</span>
-              </div>
-              <h3 class="text-2xl font-heading font-bold text-slate-900 dark:text-white">Enterprise & Custom App</h3>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">For brands needing custom web application architecture, e-commerce, or bespoke 3D experiences.</p>
-
-              <!-- Price Box -->
-              <div class="my-6 p-4 rounded-2xl bg-slate-100/80 dark:bg-white/[0.02] border border-slate-200 dark:border-white/5 flex items-baseline gap-3">
-                <span class="text-4xl font-heading font-extrabold text-slate-900 dark:text-white">₹69,999</span>
-                <span class="text-lg line-through text-red-500/80 dark:text-red-400/80 font-medium">₹94,999</span>
-              </div>
-
-              <!-- Feature List -->
-              <ul class="space-y-3 text-xs text-slate-700 dark:text-slate-300 mb-8">
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 flex-shrink-0"></i>
-                  <span><strong>Up to 15 Complex Pages or Web App Modules</strong></span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 flex-shrink-0"></i>
-                  <span>Full E-Commerce / Custom Booking / User Dashboards</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 flex-shrink-0"></i>
-                  <span>Bespoke Micro-Animations & Smooth Motion Design</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 flex-shrink-0"></i>
-                  <span>Custom Backend API, Database & Payment Gateway Setup</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="check-circle" class="w-4 h-4 text-purple-500 flex-shrink-0"></i>
-                  <span>Advanced Schema Markup & Complete Technical SEO</span>
-                </li>
-                <li class="flex items-center gap-2.5">
-                  <i data-lucide="zap" class="w-4 h-4 text-amber-400 flex-shrink-0"></i>
-                  <span>Priority Sprint Execution + <strong>60 Days Ongoing Support</strong></span>
-                </li>
-              </ul>
-            </div>
-
-            <button data-select-plan="Premium" class="btn-secondary w-full py-3.5 rounded-xl font-semibold text-xs tracking-wide uppercase transition-all flex items-center justify-center gap-2">
-              <span>Select Premium Plan</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Interactive Contact Engine & WhatsApp Route -->
-    <section id="contact" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative overflow-hidden">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
-          
-          <!-- Left Column: Agency Pitch & Direct WhatsApp Info -->
-          <div class="lg:col-span-5 flex flex-col justify-between">
-            <div>
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider mb-4">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                <span>Direct Consultation</span>
-              </div>
-              <h2 class="text-2xl sm:text-4xl lg:text-5xl font-heading font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
-                Let's Engineer Your Next Digital Milestone.
-              </h2>
-              <p class="mt-3 sm:mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                Tell us about your project vision. Fill out our scope planner or connect immediately with our engineering team over WhatsApp.
+            <div class="about-copy">
+              <p class="reveal">
+                Frameworks Studio started with a clear observation:
+                <strong>businesses shouldn't need a massive agency budget
+                or wait 4 months to have a digital presence they're genuinely proud of.</strong>
               </p>
 
-              <!-- Direct WhatsApp Card -->
-              <div class="mt-6 sm:mt-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-emerald-950/20 to-slate-900/10 dark:from-emerald-950/40 dark:to-slate-900/90 border border-emerald-500/30">
-                <div class="flex items-start gap-3 sm:gap-4">
-                  <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="message-square" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-                  </div>
-                  <div class="flex-1">
-                    <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">Instant WhatsApp Connect</h4>
-                    <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Want to discuss your timeline or get a quick scope review right away?</p>
-                    <a href="https://wa.me/916383976149?text=Hi%20Frameworks%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20new%20website%20project." target="_blank" rel="noopener noreferrer" class="mt-3 flex sm:inline-flex items-center justify-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:opacity-90 bg-emerald-500/15 border border-emerald-500/30 px-4 py-2.5 rounded-xl transition-all w-full sm:w-auto">
-                      <span>Chat with Architect (+91 6383976149)</span>
-                      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
+              <p class="reveal">
+                We work directly with founders, clinic directors, retail merchants,
+                and ambitious brands. You talk to the people doing the work — not three layers of account managers before your requirement reaches an engineer.
+              </p>
 
-              <!-- Trust Points -->
-              <div class="mt-6 sm:mt-8 space-y-2.5 sm:space-y-3 text-xs text-slate-700 dark:text-slate-300">
-                <div class="flex items-center gap-3">
-                  <i data-lucide="clock" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>Guaranteed response within 2 business hours</span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <i data-lucide="shield" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>Non-Disclosure Agreement (NDA) supported upon request</span>
-                </div>
-                <div class="flex items-center gap-3">
-                  <i data-lucide="check" class="w-4 h-4 text-indigo-500 flex-shrink-0"></i>
-                  <span>100% fixed-price proposals without surprise fees</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-8 sm:mt-10 pt-5 sm:pt-6 border-t border-slate-200 dark:border-white/5 text-xs text-slate-500 dark:text-slate-400">
-              <span>Direct Agency Email:</span> 
-              <span class="text-slate-800 dark:text-slate-200 font-mono ml-1 font-semibold break-all">contact@frameworksstudio.io</span>
+              <p class="reveal">
+                And if you don't need an expensive feature, we'll tell you upfront. We'd rather solve the right problem rapidly than sell you bloated software you'll never use.
+              </p>
             </div>
           </div>
+        </div>
 
-          <!-- Right Column: Interactive Lead Capture Form -->
-          <div class="lg:col-span-7">
-            <div class="glass-panel p-5 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl" id="contactCard">
-              <h3 class="text-xl sm:text-2xl font-heading font-bold text-slate-900 dark:text-white mb-1">Project Scope Planner</h3>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mb-5 sm:mb-6">Select your preferred plan and provide key details. Our team will review your specs.</p>
-
-              <!-- In-form Notification Box -->
-              <div id="formNotice" class="hidden"></div>
-
-              <form id="agencyContactForm" class="space-y-4 sm:space-y-5">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                  <!-- Name -->
-                  <div>
-                    <label for="clientName" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Full Name *</label>
-                    <input type="text" id="clientName" name="name" required minlength="2" maxlength="80" placeholder="e.g. Alex Sharma" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                  </div>
-                  <!-- Company / Brand -->
-                  <div>
-                    <label for="clientCompany" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Company / Brand (Optional)</label>
-                    <input type="text" id="clientCompany" name="company" maxlength="100" placeholder="e.g. Acme Corp" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                  <!-- Email -->
-                  <div>
-                    <label for="clientEmail" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Work Email Address *</label>
-                    <input type="email" id="clientEmail" name="email" required placeholder="alex@company.com" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                  </div>
-                  <!-- Phone / WhatsApp -->
-                  <div>
-                    <label for="clientPhone" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Phone / WhatsApp (Optional)</label>
-                    <input type="tel" id="clientPhone" name="phone" maxlength="30" placeholder="+91 98765 43210" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                  </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                  <!-- Plan Selection Dropdown (business_type) -->
-                  <div>
-                    <label for="projectPlan" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Selected Package Plan</label>
-                    <select id="projectPlan" name="business_type" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-white dark:bg-[#0D111D] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                      <option value="Basics">Basics Plan — ₹19,999 (was ₹29,999)</option>
-                      <option value="Standard" selected>Standard Plan — ₹39,999 (Most Popular)</option>
-                      <option value="Premium">Premium Plan — ₹69,999 (Enterprise App)</option>
-                      <option value="Custom">Custom Enterprise Scope</option>
-                    </select>
-                  </div>
-
-                  <!-- Timeline Preference with 48 - 72 Hours Sprint -->
-                  <div>
-                    <label for="projectTimeline" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Estimated Launch Timeline</label>
-                    <select id="projectTimeline" name="timeline" class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-white dark:bg-[#0D111D] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
-                      <option value="Rapid Sprint (48 — 72 Hours)">⚡ Rapid Sprint (48 — 72 Hours Delivery)</option>
-                      <option value="Within 1 Week">Within 1 Week</option>
-                      <option value="Within 2-3 Weeks">Within 2 — 3 Weeks</option>
-                      <option value="Flexible / Planning Phase">Flexible / Early Planning</option>
-                    </select>
-                  </div>
-                </div>
-
-                <!-- Project Brief (message: 10 - 3000 chars) -->
-                <div>
-                  <label for="projectMessage" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Project Overview / Key Requirements *</label>
-                  <textarea id="projectMessage" name="message" required minlength="10" maxlength="3000" rows="4" placeholder="Briefly describe your business goals, target audience, must-have features, or reference links (min 10 characters)..." class="w-full px-3.5 py-3 sm:px-4 sm:py-3 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-base sm:text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none"></textarea>
-                </div>
-
-                <!-- Invisible Honeypot Field -->
-                <div style="display: none;" aria-hidden="true">
-                  <input type="text" id="bot_field" name="bot_field" tabindex="-1" autocomplete="off" />
-                </div>
-
-                <!-- Cloudflare Turnstile Security Verification (Responsive Container) -->
-                <div class="pt-1 flex flex-col items-center sm:items-start w-full overflow-hidden">
-                  <div class="cf-turnstile max-w-full" data-sitekey="0x4AAAAAAFKUiavTO6RyaYd1" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError" data-theme="auto"></div>
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" id="submitBtn" class="btn-primary w-full py-3.5 sm:py-4 rounded-xl font-bold text-xs sm:text-sm tracking-wide uppercase flex items-center justify-center gap-2.5 sm:gap-3 shadow-xl shadow-indigo-600/30">
-                  <span id="submitBtnSpinner" class="hidden">
-                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  </span>
-                  <span id="submitBtnText">Submit Project Scope</span>
-                  <i data-lucide="send" class="w-4 h-4"></i>
-                </button>
-
-                <p class="text-[11px] text-center text-slate-500 dark:text-slate-400 mt-2">
-                  🔒 We protect your data. No spam, ever. We strictly use your details for project scoping.
-                </p>
-              </form>
-            </div>
+        <div class="process-line">
+          <div class="process-step reveal">
+            <div class="num">01</div>
+            <h3>Understand</h3>
+            <p>Business model, audience expectations, and conversion bottlenecks.</p>
           </div>
-
+          <div class="process-step reveal">
+            <div class="num">02</div>
+            <h3>Plan</h3>
+            <p>Information hierarchy, user flow, and content blueprint.</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="num">03</div>
+            <h3>Design</h3>
+            <p>Turning thinking into an editorial aesthetic people actually want to use.</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="num">04</div>
+            <h3>Build (48–72h)</h3>
+            <p>Rapid engineering sprint across phones, tablets, and desktops.</p>
+          </div>
+          <div class="process-step reveal">
+            <div class="num">05</div>
+            <h3>Launch</h3>
+            <p>Security validation, edge deployment, live handover — then continuous scale.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 7. Frequently Asked Questions -->
-    <section id="faq" class="py-14 sm:py-24 border-t border-slate-200 dark:border-white/5 relative bg-slate-100/60 dark:bg-slate-950/40 overflow-hidden">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center mb-10 sm:mb-16">
-          <div class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-2">Clarity & Assurance</div>
-          <h2 class="text-2xl sm:text-4xl font-heading font-bold text-slate-900 dark:text-white tracking-tight">
-            Frequently Asked Questions
-          </h2>
+    <!-- 05 / PROJECT STARTING POINTS (PRICING) -->
+    <section class="pricing" id="pricing">
+      <div class="wrap">
+        <div class="mono reveal">05 / Project starting points</div>
+
+        <h2 class="section-title reveal" style="margin-top:25px;">
+          Know roughly<br>where you stand.
+        </h2>
+
+        <div class="pricing-promo-banner reveal">
+          <span class="pulse-dot"></span> Limited 1-Month Founder Offer · Slashed Rates For 30 Days Only
         </div>
 
-        <div class="space-y-3.5 sm:space-y-4">
-          
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-xl sm:rounded-2xl">
-            <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2.5">
-              <i data-lucide="zap" class="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5"></i>
-              <span>How is 48 — 72 hours delivery achieved without compromising quality?</span>
-            </h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              We leverage an internal modular design architecture, pre-audited high-performance component blocks, and rapid prototyping workflows. This allows our senior engineers to build handcrafted, ultra-fast sites in hours rather than weeks of unnecessary agency bureaucracy.
-            </p>
+        <div class="price-list">
+          <!-- Tier 1: Basics -->
+          <div class="price-row reveal" data-plan="Landing Page (Special 1-Month Rate: ₹19,999, was ₹34,999)" data-service="Landing Page" data-budget="₹15k – ₹30k">
+            <div class="num">01</div>
+            <div>
+              <h3>Landing pages & Rapid Launch</h3>
+              <p>High-converting single-page experience for campaigns and rapid business validation. Guaranteed 48–72h turnaround.</p>
+            </div>
+            <div class="price">
+              <span class="price-original">₹34,999</span>
+              <span class="price-current">From ₹19,999</span>
+              <span class="price-save mono">Save ₹15,000 · 1-Month Offer</span>
+            </div>
           </div>
 
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-xl sm:rounded-2xl">
-            <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2.5">
-              <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5"></i>
-              <span>How do the promotional discount rates work?</span>
-            </h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Our standard rates for Basics, Standard, and Premium are ₹29,999, ₹44,999, and ₹94,999 respectively. During our current agency quarter, you can secure the promotional discounted rates of ₹19,999 (Basics), ₹39,999 (Standard), and ₹69,999 (Premium) with full feature inclusion.
-            </p>
+          <!-- Tier 2: Standard -->
+          <div class="price-row reveal" data-plan="Business Website (Special 1-Month Rate: ₹39,999, was ₹59,999)" data-service="Business Website" data-budget="₹30k – ₹60k">
+            <div class="num">02</div>
+            <div>
+              <h3>Business websites (⭐ Most Popular)</h3>
+              <p>Comprehensive multi-page digital platform custom-engineered around your brand, services, trust badges, and lead flows.</p>
+            </div>
+            <div class="price">
+              <span class="price-original">₹59,999</span>
+              <span class="price-current">From ₹39,999</span>
+              <span class="price-save mono">Save ₹20,000 · 1-Month Offer</span>
+            </div>
           </div>
 
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-xl sm:rounded-2xl">
-            <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2.5">
-              <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5"></i>
-              <span>What happens after I submit the project form?</span>
-            </h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Our senior tech lead will review your requirements, confirm timeline and architecture, and reply via WhatsApp or email with a formal statement of work within 2 to 4 hours.
-            </p>
+          <!-- Tier 3: E-Commerce -->
+          <div class="price-row reveal" data-plan="E-Commerce Store (Special 1-Month Rate: ₹69,999, was ₹99,999)" data-service="E-Commerce Platform" data-budget="₹60k – ₹1,20,000">
+            <div class="num">03</div>
+            <div>
+              <h3>E-Commerce & Digital Store</h3>
+              <p>Online catalog platform with slide-out cart, customer checkout, payment integration, and inventory management.</p>
+            </div>
+            <div class="price">
+              <span class="price-original">₹99,999</span>
+              <span class="price-current">From ₹69,999</span>
+              <span class="price-save mono">Save ₹30,000 · 1-Month Offer</span>
+            </div>
           </div>
 
-          <div class="glass-panel spotlight-card p-5 sm:p-6 rounded-xl sm:rounded-2xl">
-            <h4 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mb-2 flex items-start gap-2.5">
-              <i data-lucide="help-circle" class="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5"></i>
-              <span>Do I own the final code and assets?</span>
-            </h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Yes, 100%. Upon completion and handover, you receive full intellectual property ownership, Git repository access, and all design files. There are zero recurring platform lock-in fees.
+          <!-- Tier 4: Brand Identity -->
+          <div class="price-row reveal" data-plan="Brand Identity (Special 1-Month Rate: ₹14,999, was ₹24,999)" data-service="Brand Identity System" data-budget="₹15k – ₹30k">
+            <div class="num">04</div>
+            <div>
+              <h3>Brand Identity & Visual System</h3>
+              <p>Logo suite, typography architecture, brand guidelines, and complete digital design system.</p>
+            </div>
+            <div class="price">
+              <span class="price-original">₹24,999</span>
+              <span class="price-current">From ₹14,999</span>
+              <span class="price-save mono">Save ₹10,000 · 1-Month Offer</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="price-note reveal">
+          * Promotional pricing active for this month only. All packages include direct engineering access, clean typography, edge deployment, and our 48–72h turnaround. Click any row above to auto-select that package in the project brief below.
+        </p>
+      </div>
+    </section>
+
+    <!-- 06 / CONTACT & INQUIRY -->
+    <section class="contact" id="contact">
+      <div class="wrap">
+
+        <div class="contact-head">
+          <h2 class="contact-title reveal">
+            Have<br>something<br><span class="serif">in mind?</span>
+          </h2>
+
+          <div class="contact-copy reveal">
+            <p>
+              Tell us what you're building, fixing or dreaming about.
+              You don't need a perfect brief. A few words is enough to start
+              a conversation.
+            </p>
+            <br>
+            <p>
+              Direct Priority Line (WhatsApp):
+              <br>
+              <a href="https://wa.me/916383976149" target="_blank" rel="noopener noreferrer">
+                +91 6383976149 ↗
+              </a>
             </p>
           </div>
+        </div>
 
+        <!-- Working Contact Form with Shielded Railway Proxy -->
+        <form class="contact-form" id="contactForm">
+
+          <div class="field reveal">
+            <label for="name">Your name *</label>
+            <input id="name" type="text" placeholder="What's your name?" required>
+          </div>
+
+          <div class="field reveal">
+            <label for="email">Email *</label>
+            <input id="email" type="email" placeholder="Where can we reach you?" required>
+          </div>
+
+          <div class="field reveal">
+            <label for="phone">Phone / WhatsApp</label>
+            <input id="phone" type="tel" placeholder="+91 ...">
+          </div>
+
+          <div class="field reveal">
+            <label for="business">Business / Brand Name</label>
+            <input id="business" type="text" placeholder="What's the company called?">
+          </div>
+
+          <div class="field reveal">
+            <label for="service">What do you need?</label>
+            <select id="service" required>
+              <option value="">Pick one</option>
+              <option value="Landing Page">Landing Page (Rapid 48–72h)</option>
+              <option value="Website">Business Website</option>
+              <option value="Brand Identity">Brand Identity & Design</option>
+              <option value="E-commerce">E-Commerce Platform</option>
+              <option value="SEO & Growth">Speed Optimization & SEO</option>
+              <option value="Not sure yet">Not sure yet / Consultation</option>
+            </select>
+          </div>
+
+          <div class="field reveal">
+            <label for="budget">Approximate budget</label>
+            <select id="budget">
+              <option value="">Pick a range</option>
+              <option value="Under ₹25,000">Under ₹25,000 (Rapid Landing Page)</option>
+              <option value="₹25,000–₹50,000">₹25,000–₹50,000 (Standard Business Site)</option>
+              <option value="₹50,000–₹1,00,000">₹50,000–₹1,00,000 (E-Commerce Platform)</option>
+              <option value="₹1,00,000+">₹1,00,000+ (Custom Enterprise Solution)</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="field full reveal">
+            <label for="message">Tell us about your project *</label>
+            <textarea id="message" placeholder="What are your goals, required features, or target launch date?" required></textarea>
+          </div>
+
+          <!-- Honeypot anti-spam field -->
+          <input type="text" id="bot_field" style="display:none;" tabindex="-1" autocomplete="off">
+
+          <!-- Cloudflare Turnstile CAPTCHA container -->
+          <div class="turnstile-box full reveal">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAFKUiavTO6RyaYd1" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError" data-theme="dark"></div>
+          </div>
+
+          <!-- Status Notice Message -->
+          <div id="formNotice" class="form-notice full hidden"></div>
+
+          <!-- Submit Action Button -->
+          <button class="contact-submit reveal" type="submit" id="contactSubmitBtn">
+            <span id="submitBtnText">Send project brief</span>
+            <span>↗</span>
+          </button>
+
+        </form>
+
+        <div class="contact-details reveal">
+          <span>Coimbatore / India</span>
+          <span>Remote projects worldwide</span>
+          <span><a href="https://wa.me/916383976149" target="_blank">+91 6383976149</a></span>
+          <span>Technical response within 24 hours</span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Agency Footer -->
-  <footer class="border-t border-slate-200 dark:border-white/5 bg-slate-900 dark:bg-[#04060B] py-12 sm:py-16 relative z-10 text-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 pb-8 sm:pb-12 border-b border-white/10 text-center md:text-left">
-        
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-slate-200 dark:border-white/10 overflow-hidden flex-shrink-0">
-            <img src="assets/logo.png" alt="Frameworks Studio Logo" class="w-full h-full object-contain">
+  <!-- ATTRACTIVE EDITORIAL FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="wrap">
+      <!-- Upper Footer Grid -->
+      <div class="footer-top reveal">
+        <div class="footer-col footer-brand-col">
+          <div class="footer-logo">
+            <img src="assets/logo-icon.png" alt="Frameworks Studio" class="footer-logo-img" />
+            <span class="footer-brand-title">FRAMEWORKS STUDIO.</span>
           </div>
-          <span class="text-lg sm:text-xl font-heading font-extrabold tracking-tight text-white">
-            Frameworks<span class="text-indigo-400">Studio</span>
-          </span>
+          <p class="footer-brand-desc">
+            Bespoke websites, high-craft brand systems, and performance digital engineering. Built for ambitious founders who want to look as good online as they do in real life.
+          </p>
+          <div class="footer-badge">
+            <span class="pulse-dot"></span> Available for immediate sprints (48–72h delivery)
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-400 font-medium">
-          <a href="#demos" class="hover:text-white transition-colors">Client Demos</a>
-          <a href="#capabilities" class="hover:text-white transition-colors">Capabilities</a>
-          <a href="#pricing" class="hover:text-white transition-colors">Pricing Matrix</a>
-          <a href="#contact" class="hover:text-white transition-colors">Contact Engineering</a>
-          <a href="https://wa.me/916383976149" target="_blank" class="text-emerald-400 hover:text-emerald-300 transition-colors">WhatsApp Support</a>
+        <div class="footer-col">
+          <div class="footer-col-title mono">Explore</div>
+          <ul class="footer-col-list">
+            <li><a href="#work">Selected Work</a></li>
+            <li><a href="#services">Capabilities</a></li>
+            <li><a href="#about">The Studio</a></li>
+            <li><a href="#pricing">Starting Points</a></li>
+            <li><a href="#contact">Start a Project ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title mono">Direct Desk</div>
+          <ul class="footer-col-list">
+            <li><a href="https://wa.me/916383976149?text=Hello%20Frameworks%20Studio" target="_blank" rel="noopener noreferrer">WhatsApp Priority Desk ↗</a></li>
+            <li><a href="mailto:contact@frameworksstudio.in">contact@frameworksstudio.in</a></li>
+            <li><span class="mono-meta">Coimbatore, India / Worldwide</span></li>
+            <li><span class="mono-meta">Response within 24 hours</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-back-col">
+          <div class="footer-col-title mono">Navigation</div>
+          <a href="#top" class="back-to-top-btn" aria-label="Back to top">
+            <span>Back to top</span>
+            <span class="arrow-up">↑</span>
+          </a>
         </div>
       </div>
 
-      <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs text-slate-400 text-center sm:text-left">
-        <p>&copy; <span id="currentYear">2026</span> Frameworks Studio. All rights reserved.</p>
-        <p class="text-[11px] text-slate-400">Crafted for ultra-high conversion and performance.</p>
+      <!-- Giant Signature -->
+      <div class="footer-big reveal" aria-hidden="true">
+        FRAMEWORKS<span class="red">.</span>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom reveal">
+        <div class="footer-copy">
+          All rights reserved for Frameworks Studio.
+        </div>
+        <div class="footer-tags">
+          <span>Websites</span>
+          <span class="dot">·</span>
+          <span>Branding</span>
+          <span class="dot">·</span>
+          <span>Digital Engineering</span>
+        </div>
+        <div class="footer-city mono">
+          Coimbatore, TN, India / Worldwide
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- Floating WhatsApp Quick-Connect Button -->
-  <a href="https://wa.me/916383976149?text=Hi%20Frameworks%20Studio%2C%20I%20want%20to%20inquire%20about%20a%20website%20project." target="_blank" rel="noopener noreferrer" class="whatsapp-float group" aria-label="Chat on WhatsApp">
-    <div class="pulse-dot"></div>
-    <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
-    <span class="hidden sm:inline">WhatsApp Us (Online)</span>
-  </a>
-
-  <!-- Live Demo Fullscreen Preview Modal (Full-bleed on mobile, luxury framed on desktop) -->
-  <div id="previewModal" class="fixed inset-0 z-50 hidden modal-backdrop items-center justify-center p-0 sm:p-6">
-    <div class="glass-panel w-full max-w-6xl h-full sm:h-[92vh] rounded-none sm:rounded-2xl flex flex-col overflow-hidden border-0 sm:border border-indigo-500/30 shadow-2xl">
-      
-      <!-- Modal Navigation Bar -->
-      <div class="p-3 sm:p-4 bg-slate-100 dark:bg-[#0D111D] border-b border-slate-200 dark:border-white/10 flex items-center justify-between gap-2 sm:gap-4">
-        
-        <!-- Left: Title & URL -->
-        <div class="flex items-center gap-2.5 sm:gap-3 truncate">
-          <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500 animate-pulse flex-shrink-0"></div>
-          <div class="truncate">
-            <h4 id="previewTitle" class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">Client Live Demo</h4>
-            <div id="previewUrl" class="text-[10px] sm:text-[11px] font-mono text-slate-500 dark:text-slate-400 truncate">https://...</div>
+  <!-- INTERACTIVE IN-APP PREVIEW MODAL -->
+  <div id="previewModal" class="preview-modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span class="modal-live-dot"></span>
+          <div>
+            <div class="modal-title" id="previewTitle">Client Live Demo</div>
+            <div class="modal-url mono" id="previewUrl">https://...</div>
           </div>
         </div>
-
-        <!-- Middle: Responsive Viewport Switcher (Desktop/Tablet/Mobile - Hidden on phones) -->
-        <div class="hidden sm:flex items-center gap-1 bg-slate-200/70 dark:bg-white/5 p-1 rounded-xl border border-slate-300 dark:border-white/10">
-          <button data-device-width="100%" class="px-3 py-1 rounded-lg text-xs font-semibold bg-indigo-600 text-white transition-all flex items-center gap-1.5" title="Desktop View (100%)">
-            <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
-            <span>Desktop</span>
-          </button>
-          <button data-device-width="768px" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-all flex items-center gap-1.5" title="Tablet View (768px)">
-            <i data-lucide="tablet" class="w-3.5 h-3.5"></i>
-            <span>Tablet</span>
-          </button>
-          <button data-device-width="375px" class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-white transition-all flex items-center gap-1.5" title="Mobile View (375px)">
-            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
-            <span>Mobile</span>
-          </button>
+        <div class="modal-devices">
+          <button data-device-width="100%" class="device-btn active" title="Desktop View (100%)">Desktop</button>
+          <button data-device-width="768px" class="device-btn" title="Tablet View (768px)">Tablet</button>
+          <button data-device-width="375px" class="device-btn" title="Mobile View (375px)">Mobile</button>
         </div>
-
-        <!-- Right: Actions -->
-        <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          <a id="previewExternalBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-secondary px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-            <span class="hidden md:inline">Open New Tab</span>
+        <div class="modal-actions">
+          <a id="previewExternalBtn" href="#" target="_blank" rel="noopener noreferrer" class="modal-ext-btn">
+            Open New Tab ↗
           </a>
-          <button id="closeModalBtn" class="p-2 sm:p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-white/10 transition-all" aria-label="Close Preview Modal">
-            <i data-lucide="x" class="w-5 h-5"></i>
-          </button>
-        </div>
-
-      </div>
-
-      <!-- Modal Body (Iframe Container) -->
-      <div class="flex-1 bg-slate-200 dark:bg-[#06080F] flex items-center justify-center p-0 sm:p-4 overflow-hidden">
-        <div id="frameContainer" class="w-full h-full transition-all duration-300 rounded-none sm:rounded-xl overflow-hidden border-0 sm:border border-slate-300 dark:border-white/10 bg-white">
-          <iframe id="previewIframe" src="about:blank" class="w-full h-full border-0" loading="lazy" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+          <button id="closeModalBtn" class="modal-close-btn" aria-label="Close Preview Modal">×</button>
         </div>
       </div>
-
+      <div class="modal-body" id="frameContainer">
+        <iframe id="previewIframe" src="about:blank" title="Live Preview Screen" loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 
-  <!-- Submission Success Confirmation Modal -->
-  <div id="submissionSuccessModal" class="fixed inset-0 z-50 hidden modal-backdrop items-center justify-center p-3 sm:p-4">
-    <div class="glass-panel w-full max-w-lg p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-emerald-500/40 shadow-2xl text-center space-y-4 sm:space-y-6">
-      <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
-        <i data-lucide="check-circle-2" class="w-7 h-7 sm:w-8 sm:h-8"></i>
-      </div>
-
-      <div>
-        <h3 class="text-xl sm:text-2xl font-heading font-bold text-slate-900 dark:text-white">Project Scope Captured!</h3>
-        <p id="successModalMessage" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
-          Your project specifications have been submitted to Frameworks Studio.
-        </p>
-      </div>
-
-      <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-left text-xs text-slate-700 dark:text-slate-300 space-y-1.5 sm:space-y-2">
-        <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold">
-          <i data-lucide="zap" class="w-4 h-4"></i>
-          <span>Speed up response time:</span>
-        </div>
-        <p>Send your captured details directly to our technical director on WhatsApp for instant priority scheduling.</p>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
-        <a id="waConfirmBtn" href="#" target="_blank" class="flex-1 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:opacity-95 shadow-lg shadow-emerald-600/30">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          <span>Connect on WhatsApp</span>
+  <!-- SUBMISSION SUCCESS CONFIRMATION MODAL -->
+  <div id="submissionSuccessModal" class="success-modal" aria-hidden="true">
+    <div class="success-card">
+      <h3 class="success-title">Project Brief Received.</h3>
+      <p class="success-desc" id="successModalMessage">
+        Thank you! Your specifications have been delivered to our engineering desk. For instant priority review, connect directly with our technical director on WhatsApp.
+      </p>
+      <div class="success-actions">
+        <a id="waConfirmBtn" href="#" target="_blank" class="btn-wa">
+          Connect on WhatsApp ↗
         </a>
-        <button id="closeSuccessModalBtn" class="btn-secondary px-6 py-3 sm:py-3.5 rounded-xl text-xs font-semibold">
-          <span>Close Window</span>
+        <button id="closeSuccessModalBtn" class="btn-close-modal">
+          Close Window
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Application Logic -->
-  <script src="js/app.js?v=2.2"></script>
+  <!-- Agency Application Core Engine -->
+  <script src="js/app.js" defer></script>
 </body>
 </html>

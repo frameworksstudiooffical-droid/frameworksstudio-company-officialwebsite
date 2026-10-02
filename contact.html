@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Start a Project — Frameworks Studio</title>
+  <meta name="description" content="Transmit your project specifications directly to the engineering desk at Frameworks Studio. 48–72h turnaround, direct communication, zero agency bureaucracy." />
+  <meta name="theme-color" content="#f1eee8" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Clean Editorial Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23d71943'/%3E%3Cpath d='M18 16h28v7H26v7h16v7H26v11h-8V16z' fill='%23fff'/%3E%3C/svg%3E" />
+
+  <!-- High-Craft Typography (Google Fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Environment Config & Cloudflare Turnstile CAPTCHA API -->
+  <script>
+    window.turnstileToken = "";
+    window.onTurnstileSuccess = function(token) {
+      window.turnstileToken = token;
+      var notice = document.getElementById('formNotice');
+      if (notice && notice.textContent.includes('CAPTCHA')) {
+        notice.classList.add('hidden');
+      }
+    };
+    window.onTurnstileExpired = function() { window.turnstileToken = ""; };
+    window.onTurnstileError = function() { window.turnstileToken = ""; };
+  </script>
+  <script src="js/env.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <!-- Agency Swiss Editorial Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="page-ready">
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="logo" href="index.html" aria-label="Frameworks Studio home">
+        <img src="assets/logo-icon.png" alt="Frameworks Studio Logo" class="logo-img" />
+        FRAMEWORKS STUDIO.
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Overview</a>
+        <a href="work.html">Work</a>
+        <a href="pricing.html">Starting points</a>
+        <a class="nav-project active" href="contact.html">Start a project ↗</a>
+      </div>
+
+      <button class="menu" id="menuButton" aria-label="Open menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- MOBILE DROPDOWN MENU -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Overview</a>
+    <a href="work.html">Work</a>
+    <a href="pricing.html">Starting points</a>
+    <a href="contact.html">Start a project ↗</a>
+  </div>
+
+  <main style="padding-top: 130px;">
+    <!-- 06 / CONTACT & BRIEF SECTION -->
+    <section class="contact" id="contact" style="padding-top: 40px;">
+      <div class="wrap">
+        <div class="section-top">
+          <div class="mono reveal">06 / Direct Brief</div>
+          <div class="reveal">
+            <h1 class="section-title">Tell us what<br>you need.</h1>
+            <p class="section-intro">
+              Direct communication with engineers and designers. No account managers, no layers, no games. Response within 24 hours.
+            </p>
+          </div>
+        </div>
+
+        <!-- BRIEF SUBMISSION FORM -->
+        <form class="contact-form" id="contactForm" novalidate>
+          <!-- Honeypot -->
+          <input type="text" name="bot_field" id="bot_field" class="honeypot" tabindex="-1" autocomplete="off" style="display:none;" />
+
+          <div class="field reveal">
+            <label class="field-label mono" for="name">Your name *</label>
+            <input class="field-input" type="text" id="name" name="name" placeholder="Sundar Raman" required />
+          </div>
+
+          <div class="field reveal">
+            <label class="field-label mono" for="email">Email address *</label>
+            <input class="field-input" type="email" id="email" name="email" placeholder="sundar@company.com" required />
+          </div>
+
+          <div class="field reveal">
+            <label class="field-label mono" for="phone">Phone / WhatsApp</label>
+            <input class="field-input" type="tel" id="phone" name="phone" placeholder="+91 98765 43210" />
+          </div>
+
+          <div class="field reveal">
+            <label class="field-label mono" for="business">Company or brand</label>
+            <input class="field-input" type="text" id="business" name="business" placeholder="Company Pvt Ltd" />
+          </div>
+
+          <div class="field reveal">
+            <label class="field-label mono" for="service">What are we building?</label>
+            <select class="field-select" id="service" name="service">
+              <option value="" selected disabled>Select primary service</option>
+              <option value="Landing Page">Landing Page (From ₹19,999)</option>
+              <option value="Business Website">Business Website (From ₹39,999)</option>
+              <option value="E-Commerce Platform">E-Commerce Platform (From ₹69,999)</option>
+              <option value="Brand Identity System">Brand Identity System (From ₹14,999)</option>
+              <option value="Custom Engineering">Bespoke Digital Engineering / Retainer</option>
+            </select>
+          </div>
+
+          <div class="field reveal">
+            <label class="field-label mono" for="budget">Approximate budget (INR)</label>
+            <select class="field-select" id="budget" name="budget">
+              <option value="" selected disabled>Select approximate range</option>
+              <option value="₹15k – ₹30k">₹15,000 – ₹30,000 (Sprint / Landing Page)</option>
+              <option value="₹30k – ₹60k">₹30,000 – ₹60,000 (Core Business Site)</option>
+              <option value="₹60k – ₹1,20,000">₹60,000 – ₹1,20,000 (E-Commerce / Custom)</option>
+              <option value="₹1,20,000+">₹1,20,000+ (Full Stack Product / Retainer)</option>
+            </select>
+          </div>
+
+          <div class="field full reveal">
+            <label class="field-label mono" for="message">About the project *</label>
+            <textarea class="field-textarea" id="message" name="message" placeholder="What are your goals, existing URL (if any), timeline, or reference styles?" required></textarea>
+          </div>
+
+          <!-- Cloudflare Turnstile CAPTCHA container -->
+          <div class="turnstile-box full reveal">
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAFKUiavTO6RyaYd1" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError" data-theme="dark"></div>
+          </div>
+
+          <div id="formNotice" class="form-notice full hidden" role="alert"></div>
+
+          <div class="contact-submit reveal">
+            <button class="btn-submit" type="submit" id="contactSubmitBtn">
+              <span id="submitBtnText">Send project brief</span>
+              <span class="btn-arrow">↗</span>
+            </button>
+            <span class="mono note">Response within 24 hours · NDA signed on request</span>
+          </div>
+        </form>
+
+        <!-- CONTACT DETAILS & WHATSAPP PRIORITY CARD -->
+        <div class="contact-details reveal">
+          <div>
+            <div class="mono" style="margin-bottom: 6px;">Technical Director & Priority Routing</div>
+            <p style="font-size: .85rem; line-height: 1.6;">Direct WhatsApp line for immediate project feasibility review and rapid scope estimates.</p>
+          </div>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+            <a href="https://wa.me/916383976149?text=Hello%20Frameworks%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20new%20project." target="_blank" rel="noopener noreferrer" class="link-site" style="font-size: .8rem; font-weight: 600;">
+              WhatsApp: +91 6383976149 ↗
+            </a>
+            <a href="mailto:contact@frameworksstudio.in" class="link-site" style="font-size: .8rem;">
+              contact@frameworksstudio.in ↗
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- SUBMISSION SUCCESS CONFIRMATION MODAL -->
+  <div id="submissionSuccessModal" class="success-modal" aria-hidden="true">
+    <div class="success-card">
+      <h3 class="success-title">Project Brief Received.</h3>
+      <p class="success-desc" id="successModalMessage">
+        Thank you! Your specifications have been delivered to our engineering desk. For instant priority review, connect directly with our technical director on WhatsApp.
+      </p>
+      <div class="success-actions">
+        <a id="waConfirmBtn" href="#" target="_blank" class="btn-wa">
+          Connect on WhatsApp ↗
+        </a>
+        <button id="closeSuccessModalBtn" class="btn-close-modal">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTRACTIVE EDITORIAL FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="wrap">
+      <!-- Upper Footer Grid -->
+      <div class="footer-top reveal">
+        <div class="footer-col footer-brand-col">
+          <div class="footer-logo">
+            <img src="assets/logo-icon.png" alt="Frameworks Studio" class="footer-logo-img" />
+            <span class="footer-brand-title">FRAMEWORKS STUDIO.</span>
+          </div>
+          <p class="footer-brand-desc">
+            Bespoke websites, high-craft brand systems, and performance digital engineering. Built for ambitious founders who want to look as good online as they do in real life.
+          </p>
+          <div class="footer-badge">
+            <span class="pulse-dot"></span> Available for immediate sprints (48–72h delivery)
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title mono">Explore</div>
+          <ul class="footer-col-list">
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="work.html">Selected Work</a></li>
+            <li><a href="pricing.html">Starting Points</a></li>
+            <li><a href="contact.html">Start a Project ↗</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <div class="footer-col-title mono">Direct Desk</div>
+          <ul class="footer-col-list">
+            <li><a href="https://wa.me/916383976149?text=Hello%20Frameworks%20Studio" target="_blank" rel="noopener noreferrer">WhatsApp Priority Desk ↗</a></li>
+            <li><a href="mailto:contact@frameworksstudio.in">contact@frameworksstudio.in</a></li>
+            <li><span class="mono-meta">Coimbatore, India / Worldwide</span></li>
+            <li><span class="mono-meta">Response within 24 hours</span></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-back-col">
+          <div class="footer-col-title mono">Navigation</div>
+          <a href="#top" class="back-to-top-btn" aria-label="Back to top">
+            <span>Back to top</span>
+            <span class="arrow-up">↑</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Giant Signature -->
+      <div class="footer-big reveal" aria-hidden="true">
+        FRAMEWORKS<span class="red">.</span>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom reveal">
+        <div class="footer-copy">
+          All rights reserved for Frameworks Studio.
+        </div>
+        <div class="footer-tags">
+          <span>Websites</span>
+          <span class="dot">·</span>
+          <span>Branding</span>
+          <span class="dot">·</span>
+          <span>Digital Engineering</span>
+        </div>
+        <div class="footer-city mono">
+          Coimbatore, TN, India / Worldwide
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js" defer></script>
+</body>
+</html>
