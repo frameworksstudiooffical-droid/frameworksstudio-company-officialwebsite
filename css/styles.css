@@ -23,13 +23,18 @@
     html {
       scroll-behavior: smooth;
       background: var(--paper);
+      overflow-x: hidden !important;
+      max-width: 100%;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
       background: var(--paper);
       color: var(--ink);
       font-family: var(--sans);
-      overflow-x: hidden;
+      overflow-x: hidden !important;
+      max-width: 100%;
+      position: relative;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -1672,15 +1677,17 @@
       cursor: pointer;
     }
 
-    /* MOBILE RESPONSIVENESS */
+    /* ====================================================
+       MOBILE RESPONSIVENESS OVERHAUL (PHONES & TABLETS)
+       ==================================================== */
     @media (max-width: 900px) {
       .wrap,
       .nav-inner {
-        width: min(100% - 30px, 1380px);
+        width: min(100% - 32px, 1380px);
       }
 
       .nav-inner {
-        height: 70px;
+        height: 68px;
       }
 
       .nav-links {
@@ -1688,69 +1695,154 @@
       }
 
       .menu {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        font-size: 1.4rem;
       }
 
+      /* Full-Screen Luxury Mobile Drawer */
       .mobile-nav {
         display: none;
         position: fixed;
-        z-index: 49;
-        inset: 70px 0 auto 0;
-        padding: 25px 15px 35px;
+        z-index: 99;
+        top: 68px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: calc(100dvh - 68px);
+        padding: 25px 24px 35px;
         background: var(--paper);
         border-bottom: 1px solid var(--line);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
       .mobile-nav.active {
-        display: grid;
+        display: flex;
       }
 
       .mobile-nav a {
-        padding: 13px 0;
+        padding: 16px 0;
         border-bottom: 1px solid var(--line);
         font-family: var(--display);
-        font-size: 1.25rem;
+        font-size: 1.35rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
+      .mobile-nav a:last-of-type {
+        border-bottom: 0;
+        color: var(--red);
+      }
+
+      /* Tight Punchy Section Rhythm */
       .hero {
-        padding-top: 125px;
+        min-height: auto;
+        padding: 110px 0 50px;
       }
 
+      .work {
+        padding: 85px 0 95px;
+      }
+
+      .statement {
+        padding: 85px 0;
+      }
+
+      .services {
+        padding: 85px 0;
+      }
+
+      .about {
+        padding: 85px 0;
+      }
+
+      .pricing {
+        padding: 85px 0;
+      }
+
+      .contact {
+        padding: 85px 0 60px;
+      }
+
+      footer {
+        padding: 65px 0 35px;
+      }
+
+      /* Hero Section */
       .hero-meta {
         align-items: flex-start;
-        gap: 20px;
+        gap: 16px;
         flex-direction: column;
-        margin-bottom: 55px;
+        margin-bottom: 40px;
       }
 
       .hero-title {
-        font-size: clamp(3.8rem, 16vw, 7.5rem);
+        font-size: clamp(2.8rem, 12.5vw, 6rem);
+        line-height: .88;
+        letter-spacing: -.07em;
+        word-break: break-word;
       }
 
       .hero-title .indent {
         margin-left: 0;
       }
 
-      .hero-bottom,
+      .hero-bottom {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-top: 50px;
+      }
+
+      .hero-statement {
+        font-size: 1.15rem;
+        line-height: 1.4;
+      }
+
+      .hero-note {
+        justify-self: start;
+        font-size: .84rem;
+      }
+
+      .scroll-mark {
+        margin-top: 40px;
+      }
+
+      /* Section Tops */
       .section-top,
       .statement-inner,
       .about-grid,
       .contact-head {
         grid-template-columns: 1fr;
-        gap: 35px;
-      }
-
-      .hero-note {
-        justify-self: start;
+        gap: 25px;
       }
 
       .section-top {
-        margin-bottom: 55px;
+        margin-bottom: 45px;
       }
 
+      .section-title {
+        font-size: clamp(2.4rem, 10vw, 4.4rem);
+        line-height: .88;
+        letter-spacing: -.06em;
+      }
+
+      .section-intro {
+        margin-top: 20px;
+        font-size: .95rem;
+      }
+
+      /* Work Showcase */
       .work-grid {
         grid-template-columns: 1fr;
-        gap: 65px;
+        gap: 55px;
       }
 
       .work-item:nth-child(n) {
@@ -1760,64 +1852,179 @@
 
       .project-visual,
       .work-item:nth-child(n) .project-visual {
-        aspect-ratio: 1.15 / 1;
+        aspect-ratio: 1.2 / 1;
       }
 
+      .project-caption {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding-top: 12px;
+      }
+
+      .project-name {
+        font-size: 1.1rem;
+      }
+
+      .project-metrics {
+        margin-top: 10px;
+        gap: 6px;
+      }
+
+      .metric-chip {
+        font-size: .58rem;
+        padding: 3px 7px;
+      }
+
+      .project-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .btn-preview {
+        justify-content: center;
+        padding: 12px 18px;
+        font-size: .75rem;
+        width: 100%;
+        text-align: center;
+      }
+
+      .link-site {
+        text-align: center;
+        padding: 8px 0;
+        font-size: .72rem;
+      }
+
+      /* Statement (02) */
       .statement-inner {
         display: block;
       }
 
       .statement-copy {
-        margin-top: 40px;
+        font-size: clamp(2.2rem, 8.5vw, 4.2rem);
+        line-height: 1;
+        margin-top: 30px;
       }
 
       .statement-foot {
-        margin-top: 40px;
+        margin-top: 30px;
+        font-size: .88rem;
+      }
+
+      /* Services (03) */
+      .service-list {
+        margin-top: 45px;
       }
 
       .service-row {
-        grid-template-columns: 45px 1fr 25px;
+        grid-template-columns: 35px 1fr 25px;
         gap: 12px;
-        min-height: 120px;
+        min-height: auto;
+        padding: 24px 0;
+      }
+
+      .service-row h3 {
+        font-size: 1.35rem;
       }
 
       .service-desc {
-        grid-column: 2;
+        grid-column: 2 / -1;
         grid-row: 2;
+        margin-top: 6px;
+        font-size: .84rem;
+        line-height: 1.55;
       }
 
       .service-arrow {
         grid-column: 3;
         grid-row: 1;
+        justify-self: end;
       }
 
+      /* Process (04) */
       .process-line {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+        margin-top: 45px;
+        border-top: 1px solid var(--ink);
       }
 
       .process-step {
-        min-height: 170px;
-        margin-right: 12px;
+        min-height: auto;
+        padding: 20px 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        margin-right: 0;
+      }
+
+      .process-step:last-child {
+        border-bottom: 0;
       }
 
       .process-step h3 {
-        margin-top: 45px;
+        margin-top: 10px;
+        font-size: 1.25rem;
       }
 
+      .process-step p {
+        margin-top: 6px;
+        font-size: .85rem;
+        line-height: 1.55;
+      }
+
+      /* Pricing (05) */
       .price-row {
-        grid-template-columns: 35px 1fr;
-        gap: 15px;
-        padding: 18px 0;
+        grid-template-columns: 28px 1fr;
+        gap: 12px;
+        padding: 22px 0;
+      }
+
+      .price-row h3 {
+        font-size: 1.25rem;
+      }
+
+      .price-row p {
+        font-size: .82rem;
+        line-height: 1.5;
+        margin-top: 6px;
       }
 
       .price {
         grid-column: 2;
         align-items: flex-start;
         text-align: left;
+        margin-top: 14px;
+      }
+
+      .price-original {
+        font-size: .78rem;
+      }
+
+      .price-current {
+        font-size: 1.2rem;
+      }
+
+      .price-save {
+        font-size: .58rem;
+      }
+
+      /* Contact Form (06) */
+      .contact-head {
+        margin-bottom: 50px;
+      }
+
+      .contact-title {
+        font-size: clamp(2.6rem, 11vw, 4.8rem);
+        line-height: .86;
       }
 
       .contact-form {
         grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .field {
+        padding: 18px 0;
       }
 
       .field.full,
@@ -1826,27 +2033,128 @@
         grid-column: 1;
       }
 
+      .field input,
+      .field textarea,
+      .field select {
+        font-size: 16px; /* Prevents auto-zoom in iOS Safari */
+      }
+
+      .contact-submit {
+        margin-top: 30px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 24px;
+        font-size: .85rem;
+      }
+
+      .contact-details {
+        margin-top: 45px;
+        padding-top: 25px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      /* Footer */
       .footer-top {
         grid-template-columns: 1fr;
-        gap: 40px;
-        padding-bottom: 50px;
+        gap: 36px;
+        padding-bottom: 45px;
       }
 
-      .contact-details,
+      .footer-brand-desc {
+        max-width: 100%;
+      }
+
+      .footer-big,
+      .giant-name {
+        font-size: clamp(2.5rem, 13vw, 5.2rem);
+        padding-top: 24px;
+        letter-spacing: -.08em;
+      }
+
       .footer-bottom {
-        align-items: flex-start;
         flex-direction: column;
-        gap: 16px;
+        align-items: flex-start;
+        gap: 14px;
+        margin-top: 30px;
+        padding-top: 20px;
       }
 
+      /* In-App Preview Modal */
       .modal-card {
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         border: 0;
+        border-radius: 0;
+      }
+
+      .modal-header {
+        padding: 10px 14px;
+      }
+
+      .modal-title {
+        font-size: .8rem;
       }
 
       .modal-devices {
         display: none;
+      }
+
+      .modal-ext-btn {
+        padding: 6px 10px;
+        font-size: .6rem;
+      }
+
+      .modal-close-btn {
+        padding: 0 6px;
+        font-size: 1.7rem;
+      }
+    }
+
+    /* Extra Small Phones (iPhone SE, Galaxy A, 360px viewport) */
+    @media (max-width: 480px) {
+      .wrap,
+      .nav-inner {
+        width: calc(100% - 24px);
+      }
+
+      .hero-title {
+        font-size: clamp(2.2rem, 11vw, 3.4rem);
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 9.5vw, 3rem);
+      }
+
+      .service-row {
+        grid-template-columns: 28px 1fr 20px;
+        gap: 8px;
+      }
+
+      .service-row h3 {
+        font-size: 1.18rem;
+      }
+
+      .price-row {
+        grid-template-columns: 22px 1fr;
+        gap: 10px;
+      }
+
+      .price-row h3 {
+        font-size: 1.15rem;
+      }
+
+      .metric-chip {
+        font-size: .55rem;
+        padding: 3px 6px;
+      }
+
+      .footer-brand-title {
+        font-size: 1.05rem;
       }
     }
 

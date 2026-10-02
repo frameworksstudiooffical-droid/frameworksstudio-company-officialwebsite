@@ -96,14 +96,16 @@
 
     if (menuButton && mobileNav) {
       menuButton.addEventListener("click", () => {
-        mobileNav.classList.toggle("active");
-        menuButton.textContent = mobileNav.classList.contains("active") ? "×" : "☰";
+        const isOpen = mobileNav.classList.toggle("active");
+        menuButton.textContent = isOpen ? "×" : "☰";
+        document.body.style.overflow = isOpen ? "hidden" : "";
       });
 
       mobileNav.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", () => {
           mobileNav.classList.remove("active");
           menuButton.textContent = "☰";
+          document.body.style.overflow = "";
         });
       });
     }
