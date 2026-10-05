@@ -15,7 +15,7 @@
       console.warn("Turnstile verification error or fallback mode.");
     };
 
-    /* ===== 1. LOADING SCREEN ===== */
+    /* ===== 1. HIGH-PERFORMANCE SMART LOADER ===== */
     const pageLoader = document.getElementById("pageLoader");
     const loaderPercent = document.getElementById("loaderPercent");
     const loaderBar = document.getElementById("loaderBar");
@@ -49,19 +49,22 @@
       if (finished) return;
       finished = true;
       updateLoader(100);
+      try { sessionStorage.setItem("fs_visited", "1"); } catch(e){}
 
       setTimeout(() => {
         if (pageLoader) {
           pageLoader.classList.add("is-done");
           document.body.classList.remove("is-loading");
           document.body.classList.add("page-ready");
-          setTimeout(() => pageLoader.remove(), 900);
+          setTimeout(() => pageLoader.remove(), 600);
         }
-      }, 350);
+      }, 250);
     }
 
     const loaderStart = performance.now();
-    const minimumLoaderTime = 1600;
+    let isReturning = false;
+    try { isReturning = sessionStorage.getItem("fs_visited") === "1"; } catch(e){}
+    const minimumLoaderTime = isReturning ? 250 : 550;
 
     function animateLoader(now) {
       const elapsed = now - loaderStart;
@@ -92,7 +95,7 @@
 
     window.addEventListener("scroll", () => {
       if (nav) nav.classList.toggle("scrolled", window.scrollY > 35);
-    });
+    }, { passive: true });
 
     if (menuButton && mobileNav) {
       menuButton.addEventListener("click", () => {
@@ -141,35 +144,96 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
 
-    /* ===== 4. PRICING TIER SELECTORS ===== */
+    /* ===== 4. PRICING TIER 1-CLICK SELECTORS ===== */
+    function selectPlan(row) {
+      if (!row) return;
+      const service = row.getAttribute('data-service');
+      const budget = row.getAttribute('data-budget');
+      const plan = row.getAttribute('data-plan');
+
+      const serviceSelect = document.getElementById('service');
+      const budgetSelect = document.getElementById('budget');
+      const messageBox = document.getElementById('message');
+      const contactForm = document.getElementById('contactForm');
+
+      if (serviceSelect && service) {
+        serviceSelect.value = service;
+        document.querySelectorAll('.chip-btn[data-target="service"]').forEach(c => {
+          c.classList.toggle('active', c.getAttribute('data-val') === service);
+        });
+      }
+      if (budgetSelect && budget) {
+        budgetSelect.value = budget;
+        document.querySelectorAll('.chip-btn[data-target="budget"]').forEach(c => {
+          c.classList.toggle('active', c.getAttribute('data-val') === budget);
+        });
+      }
+      if (messageBox && plan) {
+        messageBox.value = `Interested in ${plan}. Looking forward to discussing specifications and kickoff.`;
+      }
+
+      const contactSec = document.getElementById('contact');
+      if (contactSec) {
+        contactSec.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (contactForm) {
+        contactForm.classList.remove('form-flash-selected');
+        void contactForm.offsetWidth;
+        contactForm.classList.add('form-flash-selected');
+        setTimeout(() => contactForm.classList.remove('form-flash-selected'), 1800);
+      }
+    }
+
     document.querySelectorAll('.price-row').forEach(row => {
-      row.addEventListener('click', () => {
-        const service = row.getAttribute('data-service');
-        const budget = row.getAttribute('data-budget');
-        const plan = row.getAttribute('data-plan');
+      row.addEventListener('click', (e) => {
+        // If clicking inside another button, let that button handle it
+        if (e.target.closest('.btn-select-tier')) return;
+        selectPlan(row);
+      });
+    });
 
-        const serviceSelect = document.getElementById('service');
-        const budgetSelect = document.getElementById('budget');
-        const messageBox = document.getElementById('message');
+    document.querySelectorAll('.btn-select-tier').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const row = btn.closest('.price-row');
+        selectPlan(row);
+      });
+    });
 
-        if (serviceSelect && service) serviceSelect.value = service;
-        if (budgetSelect && budget) budgetSelect.value = budget;
-        if (messageBox && plan) {
-          messageBox.value = `Interested in ${plan}. Looking forward to discussing specifications.`;
-        }
+    /* ===== 5. INTERACTIVE FORM QUICK-CHIPS ===== */
+    document.querySelectorAll('.chip-btn').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const targetId = chip.getAttribute('data-target');
+        const val = chip.getAttribute('data-val');
+        const select = document.getElementById(targetId);
 
-        const contactSec = document.getElementById('contact');
-        if (contactSec) {
-          contactSec.scrollIntoView({ behavior: 'smooth' });
+        document.querySelectorAll(`.chip-btn[data-target="${targetId}"]`).forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        if (select) {
+          select.value = val;
+          select.dispatchEvent(new Event('change'));
         }
       });
     });
 
-    /* ===== 5. LIVE PREVIEW MODAL ===== */
+    // Sync select dropdown changes back to chips
+    ['service', 'budget'].forEach(fieldId => {
+      const select = document.getElementById(fieldId);
+      if (select) {
+        select.addEventListener('change', () => {
+          document.querySelectorAll(`.chip-btn[data-target="${fieldId}"]`).forEach(c => {
+            c.classList.toggle('active', c.getAttribute('data-val') === select.value);
+          });
+        });
+      }
+    });
+
+    /* ===== 6. LIVE PREVIEW MODAL WITH SKELETON LOADER & BEZELS ===== */
     const previewModal = document.getElementById('previewModal');
     const previewFrame = document.getElementById('previewIframe');
     const previewTitle = document.getElementById('previewTitle');
@@ -179,14 +243,33 @@
     const frameContainer = document.getElementById('frameContainer');
     const deviceButtons = document.querySelectorAll('[data-device-width]');
 
+    // Ensure frameLoader skeleton exists
+    let frameLoader = document.getElementById('frameLoader');
+    if (!frameLoader && frameContainer) {
+      frameLoader = document.createElement('div');
+      frameLoader.id = 'frameLoader';
+      frameLoader.className = 'frame-loader';
+      frameLoader.innerHTML = '<div class="frame-spinner"></div><span>Connecting to live edge deployment...</span>';
+      frameContainer.appendChild(frameLoader);
+    }
+
     function openModal(url, displayUrl, title) {
       if (!previewModal || !previewFrame) return;
       previewTitle.textContent = title || 'Live Client Demo';
       previewUrl.textContent = displayUrl || url;
       previewExternalBtn.href = url;
-      previewFrame.src = url;
 
-      if (frameContainer) frameContainer.style.maxWidth = '100%';
+      if (frameLoader) frameLoader.classList.remove('hidden');
+      previewFrame.src = url;
+      previewFrame.onload = () => {
+        if (frameLoader) frameLoader.classList.add('hidden');
+      };
+
+      if (frameContainer) {
+        frameContainer.style.maxWidth = '100%';
+        frameContainer.classList.remove('device-tablet', 'device-mobile');
+        frameContainer.classList.add('device-desktop');
+      }
       deviceButtons.forEach(btn => btn.classList.remove('active'));
       const defBtn = document.querySelector('[data-device-width="100%"]');
       if (defBtn) defBtn.classList.add('active');
@@ -200,10 +283,13 @@
       previewModal.classList.remove('active');
       previewFrame.src = 'about:blank';
       document.body.style.overflow = 'auto';
+      if (frameLoader) frameLoader.classList.remove('hidden');
     }
 
     document.querySelectorAll('[data-preview-url]').forEach(el => {
       el.addEventListener('click', (e) => {
+        // If clicking an external direct link inside the card, let standard navigation occur
+        if (e.target.closest('.link-site') || e.target.classList.contains('link-site')) return;
         e.preventDefault();
         const url = el.getAttribute('data-preview-url');
         const displayUrl = el.getAttribute('data-display-url') || url;
@@ -230,7 +316,13 @@
         const width = btn.getAttribute('data-device-width');
         deviceButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        if (frameContainer) frameContainer.style.maxWidth = width;
+        if (frameContainer) {
+          frameContainer.style.maxWidth = width;
+          frameContainer.classList.remove('device-desktop', 'device-tablet', 'device-mobile');
+          if (width === '768px') frameContainer.classList.add('device-tablet');
+          else if (width === '375px') frameContainer.classList.add('device-mobile');
+          else frameContainer.classList.add('device-desktop');
+        }
       });
     });
 
@@ -372,3 +464,38 @@
         if (e.target === successModal) successModal.classList.remove('active');
       });
     }
+
+    /* ===== 7. URL PARAMETER SYNC FOR CONTACT FORM ===== */
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramService = urlParams.get('service');
+      const paramBudget = urlParams.get('budget');
+      const paramPlan = urlParams.get('plan');
+
+      if (paramService || paramBudget || paramPlan) {
+        const serviceSelect = document.getElementById('service');
+        const budgetSelect = document.getElementById('budget');
+        const messageBox = document.getElementById('message');
+        const contactForm = document.getElementById('contactForm');
+
+        if (serviceSelect && paramService) {
+          serviceSelect.value = paramService;
+          document.querySelectorAll('.chip-btn[data-target="service"]').forEach(c => {
+            c.classList.toggle('active', c.getAttribute('data-val') === paramService);
+          });
+        }
+        if (budgetSelect && paramBudget) {
+          budgetSelect.value = paramBudget;
+          document.querySelectorAll('.chip-btn[data-target="budget"]').forEach(c => {
+            c.classList.toggle('active', c.getAttribute('data-val') === paramBudget);
+          });
+        }
+        if (messageBox && paramPlan) {
+          messageBox.value = `Interested in ${paramPlan}. Looking forward to discussing specifications and kickoff.`;
+        }
+        if (contactForm) {
+          contactForm.classList.add('form-flash-selected');
+          setTimeout(() => contactForm.classList.remove('form-flash-selected'), 1800);
+        }
+      }
+    } catch(paramErr) {}

@@ -34,7 +34,7 @@
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <!-- Agency Swiss Editorial Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=3.1">
+  <link rel="stylesheet" href="css/styles.css?v=4.0">
 </head>
 
 <body class="page-ready">
@@ -110,28 +110,43 @@
             <select class="field-select" id="service" name="service">
               <option value="" selected disabled>Select primary service</option>
               <option value="Landing Page">Landing Page (From ₹19,999)</option>
-              <option value="Business Website">Business Website (From ₹39,999)</option>
-              <option value="E-Commerce Platform">E-Commerce Platform (From ₹69,999)</option>
-              <option value="Brand Identity System">Brand Identity System (From ₹14,999)</option>
+              <option value="Website">Business Website (From ₹39,999)</option>
+              <option value="E-commerce">E-Commerce Platform (From ₹69,999)</option>
+              <option value="Brand Identity">Brand Identity System (From ₹14,999)</option>
               <option value="Custom Engineering">Bespoke Digital Engineering / Retainer</option>
             </select>
+            <div class="chip-container">
+              <button type="button" class="chip-btn" data-target="service" data-val="Landing Page">Landing Page (48–72h)</button>
+              <button type="button" class="chip-btn" data-target="service" data-val="Website">Business Website</button>
+              <button type="button" class="chip-btn" data-target="service" data-val="E-commerce">E-Commerce</button>
+              <button type="button" class="chip-btn" data-target="service" data-val="Brand Identity">Brand Identity</button>
+            </div>
           </div>
 
           <div class="field reveal">
             <label class="field-label mono" for="budget">Approximate budget (INR)</label>
             <select class="field-select" id="budget" name="budget">
               <option value="" selected disabled>Select approximate range</option>
-              <option value="₹15k – ₹30k">₹15,000 – ₹30,000 (Sprint / Landing Page)</option>
-              <option value="₹30k – ₹60k">₹30,000 – ₹60,000 (Core Business Site)</option>
-              <option value="₹60k – ₹1,20,000">₹60,000 – ₹1,20,000 (E-Commerce / Custom)</option>
-              <option value="₹1,20,000+">₹1,20,000+ (Full Stack Product / Retainer)</option>
+              <option value="Under ₹25,000">Under ₹25,000 (Sprint / Landing Page)</option>
+              <option value="₹25,000–₹50,000">₹25,000 – ₹50,000 (Core Business Site)</option>
+              <option value="₹50,000–₹1,00,000">₹50,000 – ₹1,00,000 (E-Commerce / Custom)</option>
+              <option value="₹1,00,000+">₹1,00,000+ (Full Stack Product / Retainer)</option>
             </select>
+            <div class="chip-container">
+              <button type="button" class="chip-btn" data-target="budget" data-val="Under ₹25,000">&lt; ₹25k</button>
+              <button type="button" class="chip-btn" data-target="budget" data-val="₹25,000–₹50,000">₹25k–₹50k</button>
+              <button type="button" class="chip-btn" data-target="budget" data-val="₹50,000–₹1,00,000">₹50k–₹100k</button>
+              <button type="button" class="chip-btn" data-target="budget" data-val="₹1,00,000+">₹100k+</button>
+            </div>
           </div>
 
           <div class="field full reveal">
             <label class="field-label mono" for="message">About the project *</label>
             <textarea class="field-textarea" id="message" name="message" placeholder="What are your goals, existing URL (if any), timeline, or reference styles?" required></textarea>
           </div>
+
+          <!-- Honeypot anti-spam field -->
+          <input type="text" id="bot_field" style="display:none;" tabindex="-1" autocomplete="off">
 
           <!-- Cloudflare Turnstile CAPTCHA container -->
           <div class="turnstile-box full reveal">
@@ -140,12 +155,15 @@
 
           <div id="formNotice" class="form-notice full hidden" role="alert"></div>
 
-          <div class="contact-submit reveal">
-            <button class="btn-submit" type="submit" id="contactSubmitBtn">
+          <div class="contact-cta-row">
+            <button class="contact-submit reveal" type="submit" id="contactSubmitBtn">
               <span id="submitBtnText">Send project brief</span>
-              <span class="btn-arrow">↗</span>
+              <span>↗</span>
             </button>
-            <span class="mono note">Response within 24 hours · NDA signed on request</span>
+            <a href="https://wa.me/916383976149?text=Hello%20Frameworks%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20project%20sprint." target="_blank" rel="noopener noreferrer" class="btn-wa-direct reveal">
+              <span>⚡ WhatsApp Priority Hotline (+91 6383976149)</span>
+              <span>↗</span>
+            </a>
           </div>
         </form>
 
@@ -258,6 +276,6 @@
     </div>
   </footer>
 
-  <script src="js/app.js?v=3.1" defer></script>
+  <script src="js/app.js?v=4.0" defer></script>
 </body>
 </html>
