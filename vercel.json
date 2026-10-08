@@ -10,6 +10,10 @@
     {
       "source": "/api/health",
       "destination": "https://frameworks-contact-api-production.up.railway.app/health"
+    },
+    {
+      "source": "/api/v2/verify-session",
+      "destination": "/api/verify-session"
     }
   ],
   "headers": [
